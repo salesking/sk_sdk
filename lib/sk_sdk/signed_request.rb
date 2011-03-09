@@ -1,11 +1,11 @@
 require 'base64'
 require "active_support/json"
 require 'openssl'
+
 module SK::SDK
   # Decode and validate signed requests which Salesking sends to canvas pages
   # and PubSub subscribers
   class SignedRequest
-
     attr_reader :signed_request, :app_secret, :data, :payload, :sign
 
     def initialize(signed_request, app_secret)
@@ -38,13 +38,35 @@ module SK::SDK
       @sign == OpenSSL::HMAC.hexdigest('sha256', @app_secret, @payload)
     end
 
-    def encode(str)
+    # Base64 url encode a string and sign it using the given secret. The hmac
+    # signature and the encoded string are joined by . and returned
+    #
+    # === Parameter
+    # str<String>:: the string to encode
+    # secret<String>:: the string used to create the signature
+    # === Returns
+    # <String>:: hmac-sign.encoded-string
+    def self.signed_param(str, secret)
       # base65 url encode the json, remove trailing-padding =
-      enc_str = [str].pack('m').tr('+/','-_').gsub("\n",'').gsub(/=+$/, '' )
+      enc_str = base64_url_encode(str)
       # create hmac signature
-      hmac_sig = OpenSSL::HMAC.hexdigest('sha256',@app_secret, enc_str)
+      hmac_sig = OpenSSL::HMAC.hexdigest('sha256',secret, enc_str)
       # glue together and return
       [hmac_sig, enc_str].join('.')
     end
+
+    # Base64 url encode a string:
+    #  NO padding = is added
+    # + is replaced by -
+    # / is replaced by _
+    #
+    # === Parameter
+    # str<String>:: the string to encode
+    # === Returns
+    # <String>:: base64url-encoded
+    def self.base64_url_encode(str)
+      [str].pack('m').tr('+/','-_').gsub("\n",'').gsub(/=+$/, '' )
+    end
+
   end
 end
