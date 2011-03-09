@@ -1,0 +1,18 @@
+= SalesKing SDK
+
+A bunch of classes to get a quick start creating SalesKing App's, using oAuth and
+the API.
+
+Still in a very early stage
+
+== Install
+
+
+    gem install sk_sdk
+
+Dependencies (gem's):
+
+* activeresupport
+* curb
+
+Copyright (c) 2011 Georg Leciejewski, released under the MIT license
