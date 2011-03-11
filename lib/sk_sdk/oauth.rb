@@ -17,6 +17,10 @@ module SK::SDK
 
     end
 
+    # URL showing the auth dialog to the user
+    #
+    # === Returns
+    # <String>:: Url with parameter
     def auth_dialog
 #      params = { :client_id   => @app_id,
 #                 :redirect_uri=> @app_redirect_url,
@@ -29,21 +33,30 @@ module SK::SDK
       "#{sk_url}/app/#{@app_canvas_slug}"
     end
 
-    # Makes a GET request to the access_token endpoint in SK and receives the
-    # oauth/access token
-    def get_token(code)
+    # URL to get the access_token, used in the second step after you have
+    # requested the authorization and gotten a code
+    # === Parameter
+    # code<String>:: code received after auth
+    # === Returns
+    # <String>:: Url with parameter
+    def token_url(code)
 #      params = { :client_id     => @app_id,
 #                 :client_secret => @app_secret,
 #                 :redirect_uri  => @app_redirect_url,
 #                 :code          => code }
-      url = "#{sk_url}/oauth/access_token?code=#{code}&client_id=#{@app_id}&client_secret=#{@app_secret}&redirect_uri=#{CGI::escape @app_redirect_url }"
-      c = Curl::Easy.perform(url)
+      "#{sk_url}/oauth/access_token?code=#{code}&client_id=#{@app_id}&client_secret=#{@app_secret}&redirect_uri=#{CGI::escape @app_redirect_url }"
+    end
+
+    # Makes a GET request to the access_token endpoint in SK and receives the
+    # oauth/access token
+    def get_token(code)
+      c = Curl::Easy.perform( token_url( code ) )
       # grab token from response body, containing json string
       ActiveSupport::JSON.decode(c.body_str)
     end
 
     # Each company has it's own subdomain so the url must be dynamic.
-    # This is achived by replacing the * with the subdomain from the session
+    # This is achieved by replacing the * with the subdomain from the session
     # === Returns
     # <String>:: url
     def sk_url

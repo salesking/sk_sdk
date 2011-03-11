@@ -18,6 +18,7 @@ begin
 #    gem.add_dependency 'sk_api_builder'
 #    gem.add_dependency 'activeresource'
     gem.add_development_dependency "rspec"
+    gem.add_development_dependency "rcov"
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
@@ -39,7 +40,7 @@ desc "Generate code coverage"
 Spec::Rake::SpecTask.new(:coverage) do |t|
   t.spec_files = spec_files
   t.rcov = true
-  t.rcov_opts = ['--exclude', 'spec,/var/lib/gems']
+  t.rcov_opts = ['--exclude', 'spec,/var/lib/gems,/usr/local/lib']
 end
 
 desc 'Generate documentation.'
