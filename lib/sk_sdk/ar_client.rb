@@ -19,13 +19,11 @@ module SK::SDK
     #
     # === Example
     #
-    #  SK::API::Builder.make(:client)
-    #  => reads sk_api_schema/json/v1.0/client.json and makes a class available:
+    #  SK::SDK::ArClient.make(:client)
     #  c = Client.new
     #
-    #  SK::API::Builder.make(:invoice, SK::API) MyClientMiddelware::Invoice.new
-    #  => resk_api_ads sk_api_schema/json/v1.0/invoice.json and makes a class available:
-    #  i = SK::API::Invoice.new
+    #  SK::SDK::ArClient.make(:credit_note, SK::API)
+    #  i = SK::API::CreditNote.new
     #
     # === Parameter
     # name<String>:: lowercase, underscored name: line_item, client must be a

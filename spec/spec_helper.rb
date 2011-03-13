@@ -8,6 +8,10 @@ require "#{File.dirname(__FILE__)}/../lib/sk_sdk/oauth"
 require "#{File.dirname(__FILE__)}/../lib/sk_sdk/signed_request"
 require "#{File.dirname(__FILE__)}/../lib/sk_sdk/ar_client"
 
+
+puts "Testing with ActiveResource v: #{ActiveResource::VERSION::STRING}. Make sure this matches the version in your app."
+
+
 def load_settings
   @set ||= YAML.load_file(File.join(File.dirname(__FILE__), 'settings.yml'))
 end
