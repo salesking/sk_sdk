@@ -1,9 +1,8 @@
 = SalesKing API Client
 
 The SalesKing API client uses ActiveResource, with some fixes due to json parsing.
-
-To be able to use the API you must have an SalesKing account and API access.
-
+This does NOT rely on parsing the JSON Schema, since activeresource creates the
+getter/Setter methods(less restrict).
 
 == Install
 
