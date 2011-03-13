@@ -1,0 +1,100 @@
+= SalesKing API Client
+
+The SalesKing API client uses ActiveResource, with some fixes due to json parsing.
+
+To be able to use the API you must have an SalesKing account and API access.
+
+
+== Install
+
+if you try to use it please tell us, so we can provide you a login on our dev system
+and support.
+
+    gem install sk_sdk
+
+Dependencies (gem's):
+
+* activeresupport
+* activeresource
+
+== Usage
+
+SalesKing's api interface is RESTful(mostly) and returns & accepts JSON data.
+All resources such as clients, invoices, products can be accessed via URL's
+through standard HTTP methods GET, POST, PUT and DELETE.
+
+To give it quick shot, point your browser to my-account.salesking.eu/api/clients.json
+
+Activerecord provides a wrapper around the whole url/request stuff and is pretty
+straight forward to use:
+
+    require "sk_sdk/ar_client"
+    SK::SDK::ArClient.make('client')
+
+Now the class is available
+
+  Client.set_connection({
+          :site     => 'my_sub.salesking.eu',
+          :user     => 'demo@salesking.eu',
+          :password => 'password'
+        })
+  client = Client.new(:last_name=> 'Meister')
+  client.first_name = "Bau"
+  client.save
+
+Or maybe you want to use some wrapper class
+
+    class SomeMiddleware
+
+      def initialize
+        set_api_connection
+      end
+
+      def create_client(last_name)
+        client = Client.new(:last_name=> last_name)
+        client.save
+      end
+
+      def set_api_connection
+        Client.set_connection({
+          :site     => 'my_sub.salesking.eu',
+          :user     => 'demo@salesking.eu',
+          :password => 'password'
+        })
+      end
+    end
+
+    ##### use it
+    a = SomeMiddleware.new
+    a.create_client('eder')
+
+
+Want to know more about REST style webservices?
+* http://en.wikipedia.org/wiki/Representational_State_Transfer
+* http://www.google.com/search?q=REST+site%3Awww.infoq.com
+
+=== Authentification & Safety
+
+Authentification is done with oAuth2 but HTTP basic is still allowed using your
+SalesKing login email and password.
+For a production environment be advised to create a user, per api client, and
+restrict his rights with our build in role-system!
+
+=== Toolz
+
+Since browsers do not support PUT/DELETE methods you can use CURL, a linux
+command-line http client, for testing. And of course any http library supporting
+http-basic-auth can be used.
+
+* Poster FF-Plugin - make HTTP request https://addons.mozilla.org/en-US/firefox/addon/2691/  (you must be logged into SalesKing)
+* JSONView  FF-Plugin - view json in firefox https://addons.mozilla.org/de/firefox/addon/10869/
+* JSONovich FF-Plugin -  https://addons.mozilla.org/de/firefox/addon/10122/
+
+
+See classes here:
+http://github.com/salesking/sk_api_activeresource/tree/master/lib/resources/
+
+== Tests / Specs
+
+
+Copyright (c) 2011 Georg Leciejewski, released under the MIT license
