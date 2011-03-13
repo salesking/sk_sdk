@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'rake'
 require 'rake/rdoctask'
-require 'spec/rake/spectask'
+  require 'spec/rake/spectask'
 
 begin
   require 'jeweler'
@@ -17,7 +17,7 @@ begin
 #    gem.add_dependency 'sk_api_schema'
 #    gem.add_dependency 'sk_api_builder'
 #    gem.add_dependency 'activeresource'
-    gem.add_development_dependency "rspec"
+    gem.add_development_dependency "rspec", "< 2"
     gem.add_development_dependency "rcov"
   end
   Jeweler::GemcutterTasks.new

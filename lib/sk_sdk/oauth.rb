@@ -14,21 +14,23 @@ module SK::SDK
       @app_redirect_url = opts['app_redirect_url']
       @app_canvas_slug  = opts['app_canvas_slug']
       @sk_url           = opts['sk_url']
-
+      @sub_domain       = opts['sub_domain']
     end
 
     # URL showing the auth dialog to the user
     #
     # === Returns
-    # <String>:: Url with parameter
+    # <String>:: URL with parameter
     def auth_dialog
-#      params = { :client_id   => @app_id,
-#                 :redirect_uri=> @app_redirect_url,
-#                 :scope       => @app_scope }
-      "#{sk_url}/oauth/authorize?client_id=#{@app_id}&redirect_uri=#{CGI::escape @app_redirect_url}&scope=#{CGI::escape @app_scope}"
+      params = { :client_id   => @app_id,
+                 :redirect_uri=> @app_redirect_url,
+                 :scope       => @app_scope }
+      "#{sk_url}/oauth/authorize?#{to_url_params(params)}"
     end
 
-    # return the app's canvas url: the url inside SalesKing
+    # The app's canvas url inside SalesKing
+    # === Returns
+    # <String>:: URL
     def sk_canvas_url
       "#{sk_url}/app/#{@app_canvas_slug}"
     end
@@ -40,11 +42,11 @@ module SK::SDK
     # === Returns
     # <String>:: Url with parameter
     def token_url(code)
-#      params = { :client_id     => @app_id,
-#                 :client_secret => @app_secret,
-#                 :redirect_uri  => @app_redirect_url,
-#                 :code          => code }
-      "#{sk_url}/oauth/access_token?code=#{code}&client_id=#{@app_id}&client_secret=#{@app_secret}&redirect_uri=#{CGI::escape @app_redirect_url }"
+      params = { :client_id     => @app_id,
+                 :client_secret => @app_secret,
+                 :redirect_uri  => @app_redirect_url,
+                 :code          => code }
+      "#{sk_url}/oauth/access_token?#{to_url_params(params)}"
     end
 
     # Makes a GET request to the access_token endpoint in SK and receives the
@@ -60,7 +62,13 @@ module SK::SDK
     # === Returns
     # <String>:: url
     def sk_url
-      @sk_url.gsub('*', sub_domain)
+      @sk_url.gsub('*', sub_domain).gsub(/\/\z/, '' )
+    end
+
+    def to_url_params(params_hash)
+      out = []
+      params_hash.each { |k,v| out << "#{CGI::escape k.to_s}=#{CGI::escape v.to_s}" }
+      out.join('&')
     end
 
   end

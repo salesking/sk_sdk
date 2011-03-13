@@ -20,7 +20,7 @@ describe SK::SDK::Oauth, "in general" do
   it "should get auth_dialog url" do
     a = SK::SDK::Oauth.new(@set)
     a.sub_domain = 'alki'
-    a.auth_dialog.should include "http://alki.horsts-lokal.local/oauth/authorize?client_id="
+    a.auth_dialog.should include "http://alki.horsts-lokal.local/oauth/authorize?"
     a.auth_dialog.should include @set['app_id']
     a.auth_dialog.should include CGI::escape @set['app_redirect_url']
     a.auth_dialog.should include CGI::escape @set['app_scope']
