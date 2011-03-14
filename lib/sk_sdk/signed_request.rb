@@ -56,7 +56,7 @@ module SK::SDK
     end
 
     # Base64 url encode a string:
-    #  NO padding = is added
+    #  NO padding '=' is stripped
     # + is replaced by -
     # / is replaced by _
     #

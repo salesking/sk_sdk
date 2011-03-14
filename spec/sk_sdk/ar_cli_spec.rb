@@ -1,9 +1,9 @@
 require 'spec/spec_helper'
 
-describe SK::SDK::ArClient, "make new class" do
+describe SK::SDK::ArCli, "make new class" do
 
   before :all do
-    SK::SDK::ArClient.make(:client)
+    SK::SDK::ArCli.make(:client)
     Client.set_connection( CONNECTION )
   end
 
@@ -31,23 +31,23 @@ describe SK::SDK::ArClient, "make new class" do
 
   it "should raise error on second create" do
     lambda{
-      SK::SDK::ArClient.make(:client)
+      SK::SDK::ArCli.make(:client)
     }.should raise_error(RuntimeError, "Constant Client already defined in scope of Object!")
   end
 
   it "should allow create a second class in different scope" do
     lambda{
-      SK::SDK::ArClient.make(:client, SK::API)
+      SK::SDK::ArCli.make(:client, SK::API)
       c = SK::API::Client.new
       c.id
     }.should_not raise_error(RuntimeError)
   end
 end
 
-describe SK::SDK::ArClient, "with real connection" do
+describe SK::SDK::ArCli, "with real connection" do
 
   before :all do
-    SK::SDK::ArClient.make(:client) unless Object.const_defined?('Client')
+    SK::SDK::ArCli.make(:client) unless Object.const_defined?('Client')
     Client.set_connection( CONNECTION )
     #TODO check if sk is available
   end

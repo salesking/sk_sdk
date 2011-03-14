@@ -25,10 +25,10 @@ Activerecord provides a wrapper around the whole url/request stuff and is pretty
 straight forward to use:
 
     require "sk_sdk/ar_client"
-    SK::SDK::ArClient.make(:client)
+    SK::SDK::ArCli.make(:client)
     # Create class within any namespace
     module; King; end
-    SK::SDK::ArClient.make(:credit_note, King)
+    SK::SDK::ArCli.make(:credit_note, King)
 
 Now the classes are available, but needs some connection settings first. Those Must
 be set for each class separate

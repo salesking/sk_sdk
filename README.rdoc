@@ -1,9 +1,8 @@
 = SalesKing SDK
 
-A bunch of classes to get a quick start creating SalesKing App's, using oAuth and
-the API.
+A bunch of classes to get a quick start creating SalesKing App's, using oAuth
+and the API.
 
-Still in a very early stage
 
 == Install
 
@@ -11,14 +10,36 @@ Still in a very early stage
 
 Dependencies (gem's):
 
-* activeresupport
+* activesupport
+* activeresource
 * curb
 
-== Usage
+== Classes
 
-The classes must be explicitly required
+All classes must be explicitly required
 
   require 'sk_sdk/sign_req'
   require 'sk_sdk/oauth'
+  require 'sk_sdk/ar_cli'
+
+
+=== oAuth
+
+Handling oAuth related URL's and getting an access token
+
+=== SignedRequest
+
+Helping in de/encoding of signed_request param
+
+=== API client
+
+Create classes out if thin air to CRUD SalesKing object's using activeresource
+https://github.com/salesking/sk_sdk/blob/master/lib/sk_sdk/ar_client/README.rdoc
+
+== Usage
+
+Read specs: https://github.com/salesking/sk_sdk/blob/master/lib/spec/sk_sdk
+
+
 
 Copyright (c) 2011 Georg Leciejewski, released under the MIT license

@@ -6,10 +6,10 @@ require "active_support/json"
 require "#{File.dirname(__FILE__)}/../lib/sk_sdk"
 require "#{File.dirname(__FILE__)}/../lib/sk_sdk/oauth"
 require "#{File.dirname(__FILE__)}/../lib/sk_sdk/signed_request"
-require "#{File.dirname(__FILE__)}/../lib/sk_sdk/ar_client"
+require "#{File.dirname(__FILE__)}/../lib/sk_sdk/ar_cli"
 
 
-puts "Testing with ActiveResource v: #{ActiveResource::VERSION::STRING}. Make sure this matches the version in your app."
+puts "Testing with ActiveResource v: #{ActiveResource::VERSION::STRING}."
 
 
 def load_settings
