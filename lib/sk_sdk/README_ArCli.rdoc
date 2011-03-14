@@ -1,8 +1,10 @@
 = SalesKing API Client
 
-The SalesKing API client uses ActiveResource, with some fixes due to json parsing.
+Create classes, descendants of ActiveResource::Base, to CRUD SalesKing objects.
+
 This does NOT rely on parsing the JSON Schema, since activeresource creates the
-getter/Setter methods(less restrict).
+getter/Setter methods(less restrict). The client adds some patches to AR to fix
+json parsing issues.
 
 == Install
 
@@ -18,11 +20,11 @@ Dependencies (gem's):
 SalesKing's api interface is RESTful(mostly) and returns & accepts JSON data.
 All resources such as clients, invoices, products can be accessed via URL's
 through standard HTTP methods GET, POST, PUT and DELETE.
+see available methods here:
+https://github.com/salesking/sk_api_schema/tree/master/json
 
-To give it quick shot, point your browser to my-account.salesking.eu/api/clients.json
-
-Activerecord provides a wrapper around the whole url/request stuff and is pretty
-straight forward to use:
+ActiveResource provides a wrapper around the whole url/request stuff and makes
+usage of the new classes pretty straight forward:
 
     require "sk_sdk/ar_client"
     SK::SDK::ArCli.make(:client)
@@ -41,6 +43,9 @@ be set for each class separate
   client.first_name = "Bau"
   client.save
   credit_note = King::CreditNote.new
+
+Also see ActiveResource readme:
+https://github.com/rails/rails/tree/master/activeresource
 
 Want to know more about REST style webservices?
 * http://en.wikipedia.org/wiki/Representational_State_Transfer
@@ -66,7 +71,7 @@ http-basic-auth can be used.
 * JSONovich FF-Plugin -  https://addons.mozilla.org/de/firefox/addon/10122/
 
 
-See classes here:
+See avalable classes here:
 http://github.com/salesking/sk_api_activeresource/tree/master/lib/resources/
 
 == Tests / Specs

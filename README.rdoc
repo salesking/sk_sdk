@@ -18,7 +18,7 @@ Dependencies (gem's):
 
 All classes must be explicitly required
 
-  require 'sk_sdk/sign_req'
+  require 'sk_sdk/signed_request'
   require 'sk_sdk/oauth'
   require 'sk_sdk/ar_cli'
 
@@ -38,7 +38,7 @@ https://github.com/salesking/sk_sdk/blob/master/lib/sk_sdk/ar_client/README.rdoc
 
 == Usage
 
-Read specs: https://github.com/salesking/sk_sdk/blob/master/lib/spec/sk_sdk
+Read specs: https://github.com/salesking/sk_sdk/tree/master/spec/sk_sdk
 
 
 
