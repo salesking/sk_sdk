@@ -34,7 +34,7 @@ Helping in de/encoding of signed_request param
 === API client
 
 Create classes out if thin air to CRUD SalesKing object's using activeresource
-https://github.com/salesking/sk_sdk/blob/master/lib/sk_sdk/ar_client/README.rdoc
+README: https://github.com/salesking/sk_sdk/blob/master/lib/sk_sdk/README_ArCli.rdoc
 
 == Usage
 

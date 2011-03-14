@@ -60,19 +60,17 @@ For a production environment be advised to create a user, per api client, and
 restrict his rights with our build in role-system!
 SalesKing only supports HTTPS.
 
-=== Toolz
+=== API Tutorial and Tools
 
 Since browsers do not support PUT/DELETE methods you can use CURL, a linux
 command-line http client, for testing. And of course any http library supporting
 http-basic-auth can be used.
 
+* Getting started: http://dev.blog.salesking.eu/api/
+* Chrome cRest extension https://chrome.google.com/extensions/detail/baedhhmoaooldchehjhlpppaieoglhml
 * Poster FF-Plugin - make HTTP request https://addons.mozilla.org/en-US/firefox/addon/2691/  (you must be logged into SalesKing)
 * JSONView  FF-Plugin - view json in firefox https://addons.mozilla.org/de/firefox/addon/10869/
 * JSONovich FF-Plugin -  https://addons.mozilla.org/de/firefox/addon/10122/
-
-
-See avalable classes here:
-http://github.com/salesking/sk_api_activeresource/tree/master/lib/resources/
 
 == Tests / Specs
 
