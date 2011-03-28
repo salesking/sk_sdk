@@ -1,19 +1,28 @@
 require 'cgi'
 require 'curb'
 module SK::SDK
-  # Authenticate your SalesKing App using oAuth2. This class holds common methods
+  # Authenticate your SalesKing App using oAuth2. This class provides helpers
+  # to create the token & dialog url and to get an access token
   class Oauth
 
-    attr_reader :app_id, :app_secret, :app_redirect_url
+    attr_reader :id, :secret, :redirect_url
     attr_accessor :sub_domain
 
+    # Setup a new oAuth connection requires you to set some default:
+    # === Params
+    # opts<Hash{String=>String}>:: options for your app
+    # == Options(opts)
+    # id:: oAuth app id received after registering your app in SalesKing
+    # secret:: oAuth app secret received after registering your app in SalesKing
+    # scope:: permission your app requests
+    # redirect_url:: permission your app requests
     def initialize(opts)
-      @app_id           = opts['app_id']
-      @app_secret       = opts['app_secret']
-      @app_scope        = opts['app_scope']
-      @app_redirect_url = opts['app_redirect_url']
-      @app_canvas_slug  = opts['app_canvas_slug']
-      @sk_url           = opts['sk_url']
+      @id           = opts['id']
+      @secret       = opts['secret']
+      @scope        = opts['scope']
+      @redirect_url = opts['redirect_url']
+      @canvas_slug  = opts['canvas_slug']
+      @sk_url           = opts['sk_url'] || "https://*.salesking.eu"
       @sub_domain       = opts['sub_domain']
     end
 
@@ -22,9 +31,9 @@ module SK::SDK
     # === Returns
     # <String>:: URL with parameter
     def auth_dialog
-      params = { :client_id   => @app_id,
-                 :redirect_uri=> @app_redirect_url,
-                 :scope       => @app_scope }
+      params = { :client_id   => @id,
+                 :redirect_uri=> @redirect_url,
+                 :scope       => @scope }
       "#{sk_url}/oauth/authorize?#{to_url_params(params)}"
     end
 
@@ -32,7 +41,7 @@ module SK::SDK
     # === Returns
     # <String>:: URL
     def sk_canvas_url
-      "#{sk_url}/app/#{@app_canvas_slug}"
+      "#{sk_url}/app/#{@canvas_slug}"
     end
 
     # URL to get the access_token, used in the second step after you have
@@ -42,9 +51,9 @@ module SK::SDK
     # === Returns
     # <String>:: Url with parameter
     def token_url(code)
-      params = { :client_id     => @app_id,
-                 :client_secret => @app_secret,
-                 :redirect_uri  => @app_redirect_url,
+      params = { :client_id     => @id,
+                 :client_secret => @secret,
+                 :redirect_uri  => @redirect_url,
                  :code          => code }
       "#{sk_url}/oauth/access_token?#{to_url_params(params)}"
     end

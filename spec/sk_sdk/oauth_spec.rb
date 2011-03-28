@@ -21,9 +21,9 @@ describe SK::SDK::Oauth, "in general" do
     a = SK::SDK::Oauth.new(@set)
     a.sub_domain = 'alki'
     a.auth_dialog.should include "http://alki.horsts-lokal.local/oauth/authorize?"
-    a.auth_dialog.should include @set['app_id']
-    a.auth_dialog.should include CGI::escape @set['app_redirect_url']
-    a.auth_dialog.should include CGI::escape @set['app_scope']
+    a.auth_dialog.should include @set['id']
+    a.auth_dialog.should include CGI::escape @set['redirect_url']
+    a.auth_dialog.should include CGI::escape @set['scope']
   end
 
   it "should get sk_canvas_url" do
@@ -36,9 +36,9 @@ describe SK::SDK::Oauth, "in general" do
     a = SK::SDK::Oauth.new(@set)
     a.sub_domain = 'alki'
     url = a.token_url('some-code')
-    url.should include @set['app_id']
-    url.should include @set['app_secret']
-    url.should include CGI::escape @set['app_redirect_url']
+    url.should include @set['id']
+    url.should include @set['secret']
+    url.should include CGI::escape @set['redirect_url']
   end
 
 end

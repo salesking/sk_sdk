@@ -1,10 +1,11 @@
 = SalesKing API Client
 
-Create classes, descendants of ActiveResource::Base, to CRUD SalesKing objects.
+ActiveResource based SalesKing API client. This client does not uses oAuth2 yet,
+it still uses HTTBasic Auth with username and password.
 
-This does NOT rely on parsing the JSON Schema, since activeresource creates the
-getter/Setter methods(less restrict). The client adds some patches to AR to fix
-json parsing issues.
+This does NOT rely on parsing the JSON Schema, since ActiveResource creates the
+Getter/Setter methods(less restrict). The client also adds some patches to AR to
+fix json parsing issues.
 
 == Install
 
@@ -20,20 +21,20 @@ Dependencies (gem's):
 SalesKing's api interface is RESTful(mostly) and returns & accepts JSON data.
 All resources such as clients, invoices, products can be accessed via URL's
 through standard HTTP methods GET, POST, PUT and DELETE.
-see available methods here:
+see available objects and endpoints here:
 https://github.com/salesking/sk_api_schema/tree/master/json
 
-ActiveResource provides a wrapper around the whole url/request stuff and makes
-usage of the new classes pretty straight forward:
+First create the classes:
 
     require "sk_sdk/ar_client"
     SK::SDK::ArCli.make(:client)
-    # Create class within any namespace
+
+    # Create class within namespace
     module; King; end
     SK::SDK::ArCli.make(:credit_note, King)
 
-Now the classes are available, but needs some connection settings first. Those Must
-be set for each class separate
+Now the classes are available they need connection settings first. Those Must
+be set for each class separate.
 
   [Client, CreditNote].each do |i|
     i.send(:set_connection, {:site => 'my_sub.salesking.eu',

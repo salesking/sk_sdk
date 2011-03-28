@@ -22,3 +22,14 @@ CONNECTION = {
     :password => "demo",
     :format => :json
 } unless defined?(CONNECTION)
+
+def sk_available?
+  SK::SDK::ArCli.make(:user) unless Object.const_defined?('User')
+  User.set_connection( CONNECTION )
+  begin
+    User.get(:current)
+  rescue Errno::ECONNREFUSED #ActiveResource::ResourceNotFound => e
+    return false
+  end
+
+end

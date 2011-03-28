@@ -29,12 +29,13 @@ Handling oAuth related URL's and getting an access token
 
 === SignedRequest
 
-Helping in de/encoding of signed_request param
+Helping in de/encoding of signed_request parameter available in canvas pages and
+PubSub/Webhook callbacks.
 
 === API client
 
 Create classes out if thin air to CRUD SalesKing object's using activeresource
-README: https://github.com/salesking/sk_sdk/blob/master/lib/sk_sdk/README_ArCli.rdoc
+{see README}[https://github.com/salesking/sk_sdk/blob/master/lib/sk_sdk/README_ArCli.rdoc]
 
 == Usage
 
