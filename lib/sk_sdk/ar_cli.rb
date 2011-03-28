@@ -10,9 +10,6 @@ elsif ActiveResource::VERSION::MAJOR < 3
   require 'sk_sdk/ar_cli/patches/ar2/base'
 end
 
-# schema gem
-#require 'sk_api_schema'
-
 module SK::SDK
   class ArCli
     # Create a class for a given name

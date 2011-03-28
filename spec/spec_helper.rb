@@ -23,6 +23,7 @@ CONNECTION = {
     :format => :json
 } unless defined?(CONNECTION)
 
+# check if a SalesKing instance is available by calling /users/current.json
 def sk_available?
   SK::SDK::ArCli.make(:user) unless Object.const_defined?('User')
   User.set_connection( CONNECTION )
