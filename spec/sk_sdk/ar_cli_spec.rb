@@ -43,22 +43,3 @@ describe SK::SDK::ArCli, "make new class" do
     }.should_not raise_error(RuntimeError)
   end
 end
-
-if sk_available?
-  describe SK::SDK::ArCli, "with real connection" do
-
-    before :all do
-      SK::SDK::ArCli.make(:client) unless Object.const_defined?('Client')
-      Client.set_connection( CONNECTION )
-    end
-
-    it "should save" do
-      c = Client.new :organisation=>"Rack'n Roll"
-      c.save.should be_true
-      c.id.should_not be_empty
-      c.number.should_not be_empty
-    end
-  end
-else
-  puts "Sorry your local SalesKing server ain't running, skipping real connections tests"
-end

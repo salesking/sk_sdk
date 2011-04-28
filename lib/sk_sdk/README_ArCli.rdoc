@@ -75,6 +75,8 @@ http-basic-auth can be used.
 
 == Tests / Specs
 
+Take a look into spec/resources to see a how-to
+
   rake coverage
 
 Copyright (c) 2011 Georg Leciejewski, released under the MIT license
