@@ -1,13 +1,10 @@
 require 'spec/spec_helper'
+require 'spec/resources_spec_helper'
 
 unless sk_available?
   puts "Sorry cannot connect to your SalesKing server, skipping real connections tests. Please check connection settings in spec_helper"
 else
-
-  SK::SDK::ArCli.make(:client) unless Object.const_defined?('Client')
-  SK::SDK::ArCli.make(:address) unless Object.const_defined?('Address')
-  Client.set_connection( CONNECTION )
-  Address.set_connection( CONNECTION )
+  
   describe Client, "with real connection" do
 
     before :all do
@@ -73,6 +70,8 @@ else
     end
 
     it "should edit an address" do
+      @client.addresses.length.should == 1
+     # puts @client.addresses.inspect
       @client.addresses[0].zip = '40001'
       @client.save
       @client.addresses.length.should == 1
@@ -80,12 +79,22 @@ else
     end
 
     it "should add an address" do
-      adr = Address.new( { :zip => '50374', :city => 'Cologne' } )
+      cnt_before = @client.addresses.length
+      adr = Address.new( { :zip => '37700', :city => 'Cologne' } )
       @client.addresses << adr
       @client.save
-      @client.addresses.length.should == 2
-  #    @client.addresses[0].zip = '40001'
-  #    @client.addresses.[1].zip.should == '40001'
+      @client.addresses.length.should == cnt_before+1
+    end
+
+    it "should destroy an address" do
+      cnt_before = @client.addresses.length
+#      adr = Address.new( { :zip => '696969', :city => 'Go eat It' } )
+#      @client.addresses << adr
+#      @client.save
+      @client.addresses.last._delete = 1
+      @client.save
+      @client.reload
+      @client.addresses.length.should == cnt_before-1
     end
   end
 

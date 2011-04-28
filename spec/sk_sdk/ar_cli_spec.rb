@@ -1,11 +1,7 @@
 require 'spec/spec_helper'
+require 'spec/resources_spec_helper'
 
 describe SK::SDK::ArCli, "make new class" do
-
-  before :all do
-    SK::SDK::ArCli.make(:client)
-    Client.set_connection( CONNECTION )
-  end
 
   it "should create class" do
     c = Client.new
