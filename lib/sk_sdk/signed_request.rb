@@ -1,6 +1,7 @@
 require 'base64'
 require "active_support/json"
 require 'openssl'
+require 'sk_sdk'
 
 module SK::SDK
   # Decode and validate signed requests which Salesking sends to canvas pages

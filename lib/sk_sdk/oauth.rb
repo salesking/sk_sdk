@@ -1,5 +1,6 @@
 require 'cgi'
 require 'curb'
+require 'sk_sdk'
 module SK::SDK
   # Authenticate your SalesKing App using oAuth2. This class provides helpers
   # to create the token & dialog url and to get an access token

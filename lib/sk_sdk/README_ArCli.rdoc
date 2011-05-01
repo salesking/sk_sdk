@@ -34,11 +34,13 @@ First create the classes:
     SK::SDK::ArCli.make(:credit_note, King)
 
 Now the classes are available they need connection settings first. Those Must
-be set for each class separate.
+be set for each class separate and you MUST provide the full url using the right
+protocol http/https + SUBDomain + salesking url + /api
+Our production system only supports HTTPS.
 
   [Client, CreditNote].each do |i|
-    i.send(:set_connection, {:site => 'my_sub.salesking.eu',
-                              :user => 'demo@salesking.eu',
+    i.send(:set_connection, {:site => 'https://my_sub.salesking.eu/api',
+                              :user => 'my-users@login-email.com',
                               :password => 'password' })
   client = Client.new(:last_name=> 'Meister')
   client.first_name = "Bau"
@@ -59,7 +61,7 @@ using your SalesKing login email and password.
 
 For a production environment be advised to create a user, per api client, and
 restrict his rights with our build in role-system!
-SalesKing only supports HTTPS.
+
 
 === API Tutorial and Tools
 

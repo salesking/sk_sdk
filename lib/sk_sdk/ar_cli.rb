@@ -1,4 +1,5 @@
 require 'rubygems'
+require 'sk_sdk'
 require 'active_resource'
 require 'active_resource/version'
 # patches are for specific AR version

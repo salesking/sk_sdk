@@ -16,7 +16,7 @@ Dependencies (gem's):
 
 == Classes
 
-All classes must be explicitly required
+All classes must be explicitly required so each can be used on their own.
 
   require 'sk_sdk/signed_request'
   require 'sk_sdk/oauth'
@@ -36,6 +36,12 @@ PubSub/Webhook callbacks.
 
 Create classes out if thin air to CRUD SalesKing object's using activeresource
 {see README}[https://github.com/salesking/sk_sdk/blob/master/lib/sk_sdk/README_ArCli.rdoc]
+
+This client uses HTTPBasic Auth with email/password and does NOT use oAuth. This 
+authentication method might be kicked in the future, as oAuth2 is considered
+safer.
+If you have found a convenient way to enable ActiveResource with oAuth2 we are
+glad to hear from you.
 
 == Usage
 
