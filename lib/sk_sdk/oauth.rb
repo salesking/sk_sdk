@@ -1,6 +1,7 @@
 require 'cgi'
 require 'curb'
 require 'sk_sdk'
+
 module SK::SDK
   # Authenticate your SalesKing App using oAuth2. This class provides helpers
   # to create the token & dialog url and to get an access token
@@ -12,19 +13,24 @@ module SK::SDK
     # Setup a new oAuth connection requires you to set some default:
     # === Params
     # opts<Hash{String=>String}>:: options for your app
+    # 
     # == Options(opts)
-    # id:: oAuth app id received after registering your app in SalesKing
-    # secret:: oAuth app secret received after registering your app in SalesKing
-    # scope:: permission your app requests
-    # redirect_url:: permission your app requests
+    # id<String>:: oAuth app id from SalesKing app registration
+    # secret<String>:: oAuth app secret from SalesKing app registration
+    # scope<String>:: permission your app requests
+    # redirect_url<String>:: redirect url inside your app for auth dialog
+    # sk_url<String>:: SalesKing base url, * is replaced with users subdomain,
+    # default https://*.salesking.eu, optional
+    # sub_domain<String>:: optinal, will probably be set later after a users
+    # provided his subdomain
     def initialize(opts)
       @id           = opts['id']
       @secret       = opts['secret']
       @scope        = opts['scope']
       @redirect_url = opts['redirect_url']
       @canvas_slug  = opts['canvas_slug']
-      @sk_url           = opts['sk_url'] || "https://*.salesking.eu"
-      @sub_domain       = opts['sub_domain']
+      @sk_url       = opts['sk_url'] || "https://*.salesking.eu"
+      @sub_domain   = opts['sub_domain']
     end
 
     # URL showing the auth dialog to the user
@@ -68,7 +74,7 @@ module SK::SDK
     end
 
     # Each company has it's own subdomain so the url must be dynamic.
-    # This is achieved by replacing the * with the subdomain from the session
+    # This is achieved by replacing the * with the subdomain in the instance
     # === Returns
     # <String>:: url
     def sk_url

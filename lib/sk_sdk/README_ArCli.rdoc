@@ -26,14 +26,14 @@ https://github.com/salesking/sk_api_schema/tree/master/json
 
 First create the classes:
 
-    require "sk_sdk/ar_client"
+    require "sk_sdk/ar_cli"
     SK::SDK::ArCli.make(:client)
 
     # Create class within namespace
     module; King; end
     SK::SDK::ArCli.make(:credit_note, King)
 
-Now the classes are available they need connection settings first. Those Must
+Now the classes are available they need connection settings first. Those must
 be set for each class separate and you MUST provide the full url using the right
 protocol http/https + SUBDomain + salesking url + /api
 Our production system only supports HTTPS.
