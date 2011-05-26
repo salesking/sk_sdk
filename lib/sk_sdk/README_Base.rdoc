@@ -30,32 +30,43 @@ through standard HTTP methods GET, POST, PUT and DELETE.
 see available objects and endpoints here:
 https://github.com/salesking/sk_api_schema/tree/master/json
 
-First create the classes:
+First create the classes, which simply need to descend from SK::SDK::Base
+There are several ways to do so:
 
-    require "sk_sdk/ar_cli"
-    SK::SDK::ArCli.make(:client)
+  require 'sk_sdk/base'
+  # simple object creating
+  class Client < SK::SDK::Base;end
 
-    # OR create a class within a namespace
-    module; King; end
-    SK::SDK::ArCli.make(:credit_note, King)
+  # create objects in custom King namespace
+  module; King; end
+  %w[Client Invoice Product LineItem].each do |model|
+    eval "class King::#{model} < SK::SDK::Base;end"
+  end
 
-Now the classes are available they need connection settings first. Those must
-be set for each class separate(which will change) and you MUST provide the full
-url using the right protocol
-  http/https + SUBDomain + salesking url + /api
-Our production system only supports HTTPS.
-
-  [Client, CreditNote].each do |i|
-    i.send(:set_connection, {:site => 'https://my_sub.salesking.eu/api',
-                              :user => 'my-users@login-email.com',
-                              :password => 'password' })
+  # don't forget to add your connection settings
+  SK::SDK::Base.set_connection {:site => 'https://my_sub.salesking.eu/api',
+                                :user => 'my-users@login-email.com',
+                                :password => 'password' })
+  # use it
   client = Client.new(:last_name=> 'Meister')
   client.first_name = "Bau"
   client.save
   credit_note = King::CreditNote.new
 
-Also see ActiveResource readme:
-https://github.com/rails/rails/tree/master/activeresource
+You MUST provide the full url using the right protocol when you set the
+connection and remember our production system only supports HTTPS:
+  http/https + SUBDomain + salesking url + /api
+
+If you don't like the eval you can still use the old ArCli.make method to create
+the classes:
+
+  require "sk_sdk/ar_cli"
+  SK::SDK::ArCli.make(:client)
+
+  # OR create a class within a namespace
+  module; King; end
+  SK::SDK::ArCli.make(:credit_note, King)
+
 
 Want to know more about REST style webservices?
 * http://en.wikipedia.org/wiki/Representational_State_Transfer
@@ -64,8 +75,8 @@ Want to know more about REST style webservices?
 === Authentification & Safety
 
 Authentification can be done with oAuth2 but we still support HTTP BasicAuth 
-using your SalesKing login email and password. The examples in here are still
-using HTTP basic and oAuth examples(support) will follow.
+using your SalesKing login email and password. oAuth examples(support) will
+follow.
 
 For a production environment be advised to create a user, per api client, and
 restrict his rights with our build in role-system!
@@ -78,6 +89,7 @@ command-line http client, for testing. And of course any http library supporting
 http-basic-auth can be used.
 
 * Getting started: http://dev.blog.salesking.eu/api/
+* ActiveResource readme: https://github.com/rails/rails/tree/master/activeresource
 * Chrome cRest extension https://chrome.google.com/extensions/detail/baedhhmoaooldchehjhlpppaieoglhml
 * Poster FF-Plugin - make HTTP request https://addons.mozilla.org/en-US/firefox/addon/2691/  (you must be logged into SalesKing)
 * JSONView  FF-Plugin - view json in firefox https://addons.mozilla.org/de/firefox/addon/10869/

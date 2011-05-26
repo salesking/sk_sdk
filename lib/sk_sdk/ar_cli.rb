@@ -1,18 +1,10 @@
 require 'rubygems'
 require 'sk_sdk'
-require 'active_resource'
-require 'active_resource/version'
-# patches are for specific AR version
-if ActiveResource::VERSION::MAJOR == 3
-  require 'sk_sdk/ar_cli/patches/ar3/base'
-  require 'sk_sdk/ar_cli/patches/ar3/validations'
-elsif ActiveResource::VERSION::MAJOR < 3
-  require 'sk_sdk/ar_cli/patches/ar2/validations'
-  require 'sk_sdk/ar_cli/patches/ar2/base'
-end
+require 'sk_sdk/base'
 
 module SK::SDK
   class ArCli
+    # TODO deprecated
     # Create a class for a given name
     #
     # === Example
@@ -36,33 +28,7 @@ module SK::SDK
       raise "Constant #{class_name} already defined in scope of #{obj_scope}!" if obj_scope.const_defined?(class_name)
       # create a new class from given name:
       # :line_item  => # class LineItem < ActiveResource::Base
-      klass = obj_scope.const_set(class_name, Class.new(ActiveResource::Base))
-      klass.class_eval do
-        self.extend(ClassMethods)
-        self.send(:include, InstanceMethods) # include is private
-      end
-      klass.format = :json # bug in AR must be set here
+      obj_scope.const_set( class_name, Class.new(SK::SDK::Base) )
     end
-  end
-
-  module ClassMethods    
-    # Define the connection to be used when talking to a salesking server
-    def set_connection(opts)
-      self.site     = opts[:site]
-      self.user     = opts[:user]
-      self.password = opts[:password]
-      self.format   = opts[:format].to_sym
-    end
-  end
-  
-  module InstanceMethods
-    # hook before init in activeresource base because json comes in nested:
-    # {client={data}
-    def initialize(attributes = {})
-      attr = attributes[self.class.element_name] || attributes
-      super(attr)
-    end
-
-    def save; save_with_validation; end
   end
 end

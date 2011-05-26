@@ -6,7 +6,7 @@ and the API.
 
 == Install
 
-    gem install sk_sdk
+  gem install sk_sdk
 
 Dependencies (gem's):
 
@@ -22,6 +22,13 @@ All classes must be explicitly required so each can be used on their own.
   require 'sk_sdk/oauth'
   require 'sk_sdk/ar_cli'
 
+=== API client
+
+Uses ActiveResource to CRUD SalesKing object's {see usage in README}[https://github.com/salesking/sk_sdk/blob/master/lib/sk_sdk/README_Base.rdoc]
+
+This client uses HTTPBasic Auth with email/password and does NOT rely on oAuth yet.
+This authentication method might be kicked in the future, as oAuth2 is considered
+safer. We are working on showing how to use this client with oAuth2
 
 === oAuth
 
@@ -32,21 +39,9 @@ Handling oAuth related URL's and getting an access token
 Helping in de/encoding of signed_request parameter available in canvas pages and
 PubSub/Webhook callbacks.
 
-=== API client
-
-Create classes out if thin air to CRUD SalesKing object's using activeresource
-{see README}[https://github.com/salesking/sk_sdk/blob/master/lib/sk_sdk/README_ArCli.rdoc]
-
-This client uses HTTPBasic Auth with email/password and does NOT use oAuth. This 
-authentication method might be kicked in the future, as oAuth2 is considered
-safer.
-If you have found a convenient way to enable ActiveResource with oAuth2 we are
-glad to hear from you.
-
 == Usage
 
 Read specs: https://github.com/salesking/sk_sdk/tree/master/spec/sk_sdk
-
 
 
 Copyright (c) 2011 Georg Leciejewski, released under the MIT license
