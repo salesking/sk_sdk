@@ -1,8 +1,7 @@
 CONNECTION = {
     :site => "http://demo.salesking.local:3000/api/",
-    :user => "demo@salesking.eu",
     :password => "demo",
-    :format => :json
+    :user => "demo@salesking.eu"
 } unless defined?(CONNECTION)
 
 # create all classes and set their connection

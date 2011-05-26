@@ -23,11 +23,23 @@ class SK::SDK::Base < ActiveResource::Base
   def save; save_with_validation; end
 
   # Define the connection to be used when talking to a salesking server
+  # === Params
+  # opts<Hash{Symbol=>String}>:: options
+  # == opts
+  # :site<String>:: SalesKing Url, required
+  # :token<String>:: oAuth2 access token, will be added to the request header if
+  # set user/pass are not needed, so this is what you should be using!
+  # :user<String>:: if using httpBasic auth set to sk user login email
+  # :password<String>:: if using httpBasic sk user password
   def self.set_connection(opts)
     self.site     = opts[:site]
-    self.user     = opts[:user]
-    self.password = opts[:password]
-    self.format   = opts[:format].to_sym
+    self.format   = :json # f*** xml
+    if opts[:token] #oAuth access token in header
+      self.headers['Authorization'] = "Bearer #{opts[:token]}"
+    else  
+      self.user     = opts[:user]
+      self.password = opts[:password]
+    end
   end
 
 end

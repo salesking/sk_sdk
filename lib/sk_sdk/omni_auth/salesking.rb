@@ -8,17 +8,21 @@ module OmniAuth
       # It needs to be provided in a form and retrieved from the request
       # The one on init is not used as it is grabbed from the session later
       # === Params
-      # app
-      #
-      def initialize(app, consumer_key, consumer_secret, sk_url)
+      # app<Rack Application]>:: app standard middleware application parameter
+      # client_id<String>:: the application id as registered on SalesKing
+      # client_secret<String>::  the application secret as registered on SalesKing
+      # scope<String>:: space separated extended permissions such as `api/invoices` or `api/clients:read,delete`
+      def initialize(app, client_id, client_secret, sk_url, scope)
         @base_url = sk_url
-        super(app, :salesking, consumer_key, consumer_secret)
+        @scope = scope
+        super(app, :salesking, client_id, client_secret)
       end
 
       #inject subdomain
       def request_phase
         #Subdomain is expected to be in
         # session[:subdomain] = 'my-sk-sub'
+        options[:scope] = @scope
         set_sk_url
         super
       end
