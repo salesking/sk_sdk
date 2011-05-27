@@ -53,6 +53,8 @@ module SK::SDK
 
     # URL to get the access_token, used in the second step after you have
     # requested the authorization and gotten a code
+    # The token url is located at /oauth/token like proposed in draft oAuth2.16
+    # but can still be reached at /access_token so older libs still work
     # === Parameter
     # code<String>:: code received after auth
     # === Returns
@@ -62,11 +64,11 @@ module SK::SDK
                  :client_secret => @secret,
                  :redirect_uri  => @redirect_url,
                  :code          => code }
-      "#{sk_url}/oauth/access_token?#{to_url_params(params)}"
+      "#{sk_url}/oauth/token?#{to_url_params(params)}"
     end
 
     # Makes a GET request to the access_token endpoint in SK and receives the
-    # oauth/access token
+    # access token
     def get_token(code)
       c = Curl::Easy.perform( token_url( code ) )
       # grab token from response body, containing json string

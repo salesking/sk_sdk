@@ -18,10 +18,8 @@ module OmniAuth
         super(app, :salesking, client_id, client_secret)
       end
 
-      #inject subdomain
+      #inject salesking url and scope
       def request_phase
-        #Subdomain is expected to be in
-        # session[:subdomain] = 'my-sk-sub'
         options[:scope] = @scope
         set_sk_url
         super

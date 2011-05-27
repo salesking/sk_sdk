@@ -1,4 +1,3 @@
-require 'rubygems'
 require 'sk_sdk'
 require 'sk_sdk/base'
 
