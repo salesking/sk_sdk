@@ -14,8 +14,8 @@ fix json parsing issues.
 If you are using bundler add to Gemfile
 
   gem "sk_sdk"
-  # or directly require used class
-  gem "sk_sdk", :require => "sk_sdk/ar_cli"
+  # or directly require a used class
+  gem "sk_sdk", :require => "sk_sdk/base"
 
 Dependencies (gem's):
 
@@ -57,8 +57,7 @@ You MUST provide the full url using the right protocol when you set the
 connection and remember our production system only supports HTTPS:
   http/https + SUBDomain + salesking url + /api
 
-If you don't like the eval you can still use the old ArCli.make method to create
-the classes:
+The old ArCli.make method to create the classes, still exists but is deprecated:
 
   require "sk_sdk/ar_cli"
   SK::SDK::ArCli.make(:client)

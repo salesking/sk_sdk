@@ -5,15 +5,10 @@ CONNECTION = {
 } unless defined?(CONNECTION)
 
 # create all classes and set their connection
-# instead of
-# SK::SDK::ArCli.make(:client) unless Object.const_defined?('Client')
-# Client.set_connection( CONNECTION )
-[:client, :address, :credit_note, :line_item, :invoice, :product].each do |name|
-  class_name = "#{name}".camelize
-  SK::SDK::ArCli.make(class_name) unless Object.const_defined?(class_name)
-  class_name.constantize.set_connection( CONNECTION )
+%w[Client Address CreditNote Invoice Product LineItem].each do |model|
+  eval "class #{model} < SK::SDK::Base;end" unless Object.const_defined?(model)
 end
-
+SK::SDK::Base.set_connection CONNECTION
 
 # check if a SalesKing instance is available by calling /users/current.json
 def sk_available?
