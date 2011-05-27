@@ -20,15 +20,11 @@ All classes must be explicitly required so each can be used on their own.
 
   require 'sk_sdk/signed_request'
   require 'sk_sdk/oauth'
-  require 'sk_sdk/ar_cli'
+  require 'sk_sdk/base'
 
 === API client
 
 Uses ActiveResource to CRUD SalesKing object's {see usage in README}[https://github.com/salesking/sk_sdk/blob/master/lib/sk_sdk/README_Base.rdoc]
-
-This client uses HTTPBasic Auth with email/password and does NOT rely on oAuth yet.
-This authentication method might be kicked in the future, as oAuth2 is considered
-safer. We are working on showing how to use this client with oAuth2
 
 === oAuth
 

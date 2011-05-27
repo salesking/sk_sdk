@@ -1,8 +1,6 @@
 = SalesKing API Client
 
-ActiveResource based SalesKing API client. This client does not uses oAuth2 yet,
-it still uses HTTBasic Auth with username and password.
-
+ActiveResource based SalesKing API client. 
 This does NOT rely on parsing the JSON Schema, since ActiveResource creates the
 Getter/Setter methods(less restrict). The client also adds some patches to AR to
 fix json parsing issues.
@@ -21,6 +19,21 @@ Dependencies (gem's):
 
 * activeresupport
 * activeresource
+
+== Authorization
+
+This client should be used with an oAuth2 access_token, or as long as we support
+it can use HTTBasic Auth with username and password. For a quick start BasicAuth
+is definitly easier, but it is less secure since you cannot track which client
+is accessing your account and the client has the full rights of the user. So if
+someone gets your credentials he can log into your SalesKing account and do
+whatever you can!
+
+Getting an access_token or checking is validity is not the scope of this
+library, it merely sets the AUTHORIZATION header field to
+  AUTHORIZATION: Bearer YourAccessToken
+See our {oAuth helper class}[https://github.com/salesking/sk_sdk/blob/master/lib/sk_sdk/oauth.rb]
+and read our {oAuth docs}[http://dev.blog.salesking.eu/docs/authentication/].
 
 == Usage
 
@@ -43,10 +56,14 @@ There are several ways to do so:
     eval "class King::#{model} < SK::SDK::Base;end"
   end
 
-  # don't forget to add your connection settings
+  # add your connection settings
   SK::SDK::Base.set_connection {:site => 'https://my_sub.salesking.eu/api',
                                 :user => 'my-users@login-email.com',
                                 :password => 'password' })
+  #OR Use an oAuth access token
+  #SK::SDK::Base.set_connection {:site => 'https://my_sub.salesking.eu/api',
+  #                              :token => 'someAccessToken'})
+  
   # use it
   client = Client.new(:last_name=> 'Meister')
   client.first_name = "Bau"
