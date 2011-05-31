@@ -5,15 +5,13 @@ CONNECTION = {
 } unless defined?(CONNECTION)
 
 # create all classes and set their connection
-%w[Client Address CreditNote Invoice Product LineItem].each do |model|
+%w[Client Address CreditNote Invoice Product LineItem User].each do |model|
   eval "class #{model} < SK::SDK::Base;end" unless Object.const_defined?(model)
 end
 SK::SDK::Base.set_connection CONNECTION
 
 # check if a SalesKing instance is available by calling /users/current.json
 def sk_available?
-  SK::SDK::ArCli.make(:user) unless Object.const_defined?('User')
-  User.set_connection( CONNECTION )
   begin
     User.get(:current)
   rescue Errno::ECONNREFUSED #ActiveResource::ResourceNotFound => e

@@ -88,10 +88,7 @@ else
 
     it "should destroy an address" do
       cnt_before = @client.addresses.length
-#      adr = Address.new( { :zip => '696969', :city => 'Go eat It' } )
-#      @client.addresses << adr
-#      @client.save
-      @client.addresses.last._delete = 1
+      @client.addresses.last._destroy = 1
       @client.save
       @client.reload
       @client.addresses.length.should == cnt_before-1
