@@ -42,4 +42,15 @@ class SK::SDK::Base < ActiveResource::Base
     end
   end
 
+  # If headers are not defined in a given subclass, then obtain
+  # headers from the superclass.
+  def self.headers
+    if defined?(@headers)
+      @headers
+    elsif superclass != Object && superclass.headers
+      superclass.headers
+    else
+      @headers ||= {}
+    end
+  end
 end
