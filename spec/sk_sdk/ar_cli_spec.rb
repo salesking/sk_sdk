@@ -1,5 +1,5 @@
-require 'spec/spec_helper'
-require 'spec/resources_spec_helper'
+require 'spec_helper'
+require 'resources_spec_helper'
 
 describe SK::SDK::ArCli, "make new class" do
 

@@ -13,6 +13,7 @@ Dependencies (gem's):
 * activesupport
 * activeresource
 * curb
+* sk_api_schema
 
 == Classes
 
@@ -28,7 +29,8 @@ Uses ActiveResource to CRUD SalesKing object's {see usage in README}[https://git
 
 === oAuth
 
-Handling oAuth related URL's and getting an access token
+Handling oAuth related URL's and getting an access token.
+There also is an omniAuth strategy in case you are using it.
 
 === SignedRequest
 
@@ -39,5 +41,12 @@ PubSub/Webhook callbacks.
 
 Read specs: https://github.com/salesking/sk_sdk/tree/master/spec/sk_sdk
 
+== Tests
+
+Before you run the tests use bundler to install all required gems:
+  # git clone
+  # cd into dir
+  bundle install
+  bundle exec rake spec
 
 Copyright (c) 2011 Georg Leciejewski, released under the MIT license

@@ -1,23 +1,23 @@
 require 'rubygems'
 require 'rake'
-require 'rake/rdoctask'
-  require 'spec/rake/spectask'
+require 'rdoc/task'
+require 'rspec'
+require 'rspec/core/rake_task'
 
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "sk_sdk"
     gem.summary = %Q{SalesKing SDK Ruby}
-    gem.description = %Q{Connect your business world with SalesKing. This gem gives ruby developers a jump-start for building SalesKing Business Apps. Under the hood it provides classes to handle oAuth, make RESTfull API requests and parses JSON Schema  }
+    gem.description = %Q{Connect your business world with SalesKing. This gem gives ruby developers a jump-start for building SalesKing Business Apps. It provides classes to handle oAuth, make RESTfull API requests and parses JSON Schema  }
     gem.email = "gl@salesking.eu"
     gem.homepage = "http://github.com/salesking/sk_sdk"
     gem.authors = ["Georg Leciejewski"]
     gem.add_dependency 'curb'
     gem.add_dependency 'activesupport'
-#    gem.add_dependency 'sk_api_schema'
-#    gem.add_dependency 'sk_api_builder'
-#    gem.add_dependency 'activeresource'
-    gem.add_development_dependency "rspec", "< 2"
+    gem.add_dependency 'sk_api_schema'
+    gem.add_dependency 'activeresource'
+    gem.add_development_dependency "rspec"
     gem.add_development_dependency "rcov"
   end
   Jeweler::GemcutterTasks.new
@@ -28,19 +28,17 @@ end
 desc 'Default: run specs.'
 task :default => :spec
 
-spec_files = Rake::FileList["spec/**/*_spec.rb"]
-
 desc "Run specs"
-Spec::Rake::SpecTask.new do |t|
-  t.spec_files = spec_files
-  t.spec_opts = ["-c"]
+RSpec::Core::RakeTask.new do |t|
+  t.pattern = "./spec/**/*_spec.rb" # don't need this, it's default.
+  # Put spec opts in a file named .rspec in root
 end
 
 desc "Generate code coverage"
-Spec::Rake::SpecTask.new(:coverage) do |t|
-  t.spec_files = spec_files
+RSpec::Core::RakeTask.new(:coverage) do |t|
+  t.pattern = "./spec/**/*_spec.rb" # don't need this, it's default.
   t.rcov = true
-  t.rcov_opts = ['--exclude', 'spec,/var/lib/gems,/usr/local/lib']
+  t.rcov_opts = ['--exclude', 'spec']
 end
 
 desc 'Generate documentation.'

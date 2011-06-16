@@ -1,5 +1,5 @@
-require 'spec/spec_helper'
-require 'spec/resources_spec_helper'
+require 'spec_helper'
+require 'resources_spec_helper'
 
 unless sk_available?
   puts "Sorry cannot connect to your SalesKing server, skipping real connections tests. Please check connection settings in spec_helper"

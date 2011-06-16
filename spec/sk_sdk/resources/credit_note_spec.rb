@@ -1,5 +1,5 @@
-require 'spec/spec_helper'
-require 'spec/resources_spec_helper'
+require 'spec_helper'
+require 'resources_spec_helper'
 
 unless sk_available?
   puts "Sorry cannot connect to your SalesKing server, skipping real connections tests. Please check connection settings in spec_helper"
@@ -36,11 +36,14 @@ else
       @doc.new?.should be_false
     end
 
-    it "should fail create a doc" do
-      doc = CreditNote.new()
-      doc.save.should == false
-      doc.errors.count.should == 1
-      doc.errors.on(:client_id).should == "can't be blank"
+    it "should fail create a doc without unique number" do
+      doc = CreditNote.new(:number=>'001')
+      doc.save.should == true
+      doc2 = CreditNote.new(:number=>'001')
+      doc2.save.should == false
+      doc2.errors.count.should == 2
+      doc2.errors.on(:number).should == "has already been taken"
+      doc.destroy
     end
 
     it "should find a doc" do
@@ -58,11 +61,14 @@ else
       @doc.lock_version.should > old_lock_version # because save returns the data
     end
 
-    it "should fail edit a doc" do
-      @doc.client_id = ''
+    it "should fail edit with wrong number" do
+      doc1 = CreditNote.new(:number=>'002')
+      doc1.save.should == true
+      @doc.number = '002'
       @doc.save.should == false
-      @doc.errors.count.should == 1
-      @doc.errors.on(:client_id).should == "can't be blank"
+      @doc.errors.count.should == 2
+      @doc.errors.on(:number).should == "has already been taken"
+      doc1.destroy
     end
   end
 

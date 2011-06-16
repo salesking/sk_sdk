@@ -1,6 +1,6 @@
 require 'rubygems'
 require 'yaml'
-require 'spec'
+require 'rspec'
 require "active_support"
 require "active_support/json"
 require "#{File.dirname(__FILE__)}/../lib/sk_sdk"

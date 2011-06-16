@@ -1,5 +1,5 @@
-require 'spec/spec_helper'
-require 'spec/resources_spec_helper'
+require 'spec_helper'
+require 'resources_spec_helper'
 
 unless sk_available?
   puts "Sorry cannot connect to your SalesKing server, skipping real connections tests. Please check connection settings in spec_helper"
@@ -60,11 +60,14 @@ describe Invoice, "a new invoice" do
     doc.destroy
   end
 
-  it "should fail create a doc" do
-    doc = Invoice.new()
-    doc.save.should == false
-    doc.errors.count.should == 1
-    doc.errors.on(:client_id).should == "can't be blank"
+  it "should fail create a doc without unique number" do
+    doc = Invoice.new(:number=>'001')
+    doc.save.should == true
+    doc2 = Invoice.new(:number=>'001')
+    doc2.save.should == false
+    doc2.errors.count.should == 2
+    doc2.errors.on(:number).should == "has already been taken"
+    doc.destroy
   end
 
 end
@@ -99,11 +102,14 @@ describe Invoice, "Edit an invoice" do
     @doc.notes_before.should == 'You will recieve the amout of:'
   end
 
-  it "should fail edit without a client" do
-    @doc.client_id = ''
+  it "should fail edit with wrong number" do
+    doc1 = Invoice.new(:number=>'002')
+    doc1.save.should == true
+    @doc.number = '002'
     @doc.save.should == false
-    @doc.errors.count.should == 1
-    @doc.errors.on(:client_id).should == "can't be blank"
+    @doc.errors.count.should == 2
+    @doc.errors.on(:number).should == "has already been taken"
+    doc1.destroy
   end
 end
 
