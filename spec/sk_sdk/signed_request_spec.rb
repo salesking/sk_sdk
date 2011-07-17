@@ -12,9 +12,13 @@ describe SK::SDK::SignedRequest, "in general" do
 
   it "should decode payload" do
     a = SK::SDK::SignedRequest.new(@param, @set['secret'])
-    a.data.should_not be_nil
+    a.data.should == @param_hash
     a.payload.should_not be_nil
     a.sign.should_not be_nil
+  end
+
+  it "should validate" do
+    a = SK::SDK::SignedRequest.new(@param, @set['secret'])
     a.should be_valid
   end
 
