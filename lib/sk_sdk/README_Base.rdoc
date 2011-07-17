@@ -27,6 +27,9 @@ is accessing your account and the client has the full rights of the user. So if
 someone gets your credentials he can log into your SalesKing account and do
 whatever you can!
 
+For a production environment using HTTP BasicAuth you should create one user
+per api client and restrict his rights with our role-system!
+
 Getting an access_token or checking is validity is not the scope of this
 library, it merely sets an AUTHORIZATION header if you added a token in the
 connection settings.
@@ -91,23 +94,15 @@ Want to know more about REST style webservices?
 * http://en.wikipedia.org/wiki/Representational_State_Transfer
 * http://www.google.com/search?q=REST+site%3Awww.infoq.com
 
-=== Authentification & Safety
+== Hints on ActiveResource
 
-Authentification should be done with oAuth2, but we still support HTTP BasicAuth
-using your SalesKing login email and password. 
-
-For a production environment using HTTP BasicAuth you should create one user
-per api client and restrict his rights with our role-system!
-
-=== Hints on ActiveResource
-
-* Most of the magic is coming from ActiveResource so you should read {its readme and code}[https://github.com/rails/rails/tree/master/activeresource]
+* Most of the magic is coming from ActiveResource so you should read {its README and code}[https://github.com/rails/rails/tree/master/activeresource]
 * This client does NOT rely on parsing the JSON Schema, since ActiveResource(AR) creates the Getter/Setter methods.
 * We added some patches for AR to fix JSON parsing issues, due to our nesting.
 * non-restful routes can be accessed by custom methods {see examples in AR}[https://github.com/rails/rails/blob/master/activeresource/lib/active_resource/custom_methods.rb]
   Invoice.find('uuid').post(:print, :template_id => 'pdf-template-uuid')
 
-=== Tutorials & Tools
+== Tutorials & Tools
 
 Since browsers do not support PUT/DELETE methods you can use CURL(a linux
 command-line http client) for testing. And of course any http library supporting
