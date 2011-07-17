@@ -4,11 +4,11 @@ require 'active_resource'
 require 'active_resource/version'
 # patches are for specific AR version
 if ActiveResource::VERSION::MAJOR == 3
-  require 'sk_sdk/ar_cli/patches/ar3/base'
-  require 'sk_sdk/ar_cli/patches/ar3/validations'
+  require 'sk_sdk/ar_patches/ar3/base'
+  require 'sk_sdk/ar_patches/ar3/validations'
 elsif ActiveResource::VERSION::MAJOR < 3
-  require 'sk_sdk/ar_cli/patches/ar2/validations'
-  require 'sk_sdk/ar_cli/patches/ar2/base'
+  require 'sk_sdk/ar_patches/ar2/validations'
+  require 'sk_sdk/ar_patches/ar2/base'
 end
 
 class SK::SDK::Base < ActiveResource::Base
