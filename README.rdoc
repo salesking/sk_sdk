@@ -46,7 +46,7 @@ Read specs: https://github.com/salesking/sk_sdk/tree/master/spec/sk_sdk
 Before you run the tests use bundler to install all required gems:
   # git clone
   # cd into dir
-  bundle install
-  bundle exec rake spec
+  BUNDLE_GEMFILE=ci/Gemfile bundle install
+  BUNDLE_GEMFILE=ci/Gemfile bundle exec rake spec
 
 Copyright (c) 2011 Georg Leciejewski, released under the MIT license
