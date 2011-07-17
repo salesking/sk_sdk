@@ -1,15 +1,13 @@
 = SalesKing API Client
 
-ActiveResource based SalesKing API client. 
-This does NOT rely on parsing the JSON Schema, since ActiveResource creates the
-Getter/Setter methods(less restrict). The client also adds some patches to AR to
-fix json parsing issues.
+Easily access SalesKing resources in a RESTfull way with this ActiveResource
+based SalesKing API client.
 
 == Install
 
     gem install sk_sdk
 
-If you are using bundler add to Gemfile
+For bundler add this to the Gemfile
 
   gem "sk_sdk"
   # or directly require a used class
@@ -22,15 +20,16 @@ Dependencies (gem's):
 
 == Authorization
 
-This client should be used with an oAuth2 access_token, or as long as we support
-it can use HTTBasic Auth with username and password. For a quick start BasicAuth
-is definitly easier, but it is less secure since you cannot track which client
+This client should be used with an oAuth2 access_token. But you can still use
+HTTBasic Auth(username & password). For a quick start BasicAuth is definitely
+easier, but it is less secure since you cannot track which client
 is accessing your account and the client has the full rights of the user. So if
 someone gets your credentials he can log into your SalesKing account and do
 whatever you can!
 
 Getting an access_token or checking is validity is not the scope of this
-library, it merely sets the AUTHORIZATION header field to
+library, it merely sets an AUTHORIZATION header if you added a token in the
+connection settings.
   AUTHORIZATION: Bearer YourAccessToken
 See our {oAuth helper class}[https://github.com/salesking/sk_sdk/blob/master/lib/sk_sdk/oauth.rb]
 and read our {oAuth docs}[http://dev.blog.salesking.eu/docs/authentication/].
@@ -40,48 +39,52 @@ and read our {oAuth docs}[http://dev.blog.salesking.eu/docs/authentication/].
 SalesKing's api interface is RESTful(mostly) and returns & accepts JSON data.
 All resources such as clients, invoices, products can be accessed via URL's
 through standard HTTP methods GET, POST, PUT and DELETE.
-see available objects and endpoints here:
-https://github.com/salesking/sk_api_schema/tree/master/json
 
-First create the classes, which simply need to descend from SK::SDK::Base
-There are several ways to do so:
+The available objects and their endpoints(links) are described in {our json-schema}[https://github.com/salesking/sk_api_schema/tree/master/json].
+Take a look into the links-section of each schema to see available 
+endpoints/routes and their parameter f.ex. to apply search filtering
+
+Your classes simply descend from SK::SDK::Base and need the connection settings.
+You MUST provide the full URL using the right protocol in the connection and
+remember our production system only supports HTTPS:
+  https + SUBDomain + salesking url + /api
+
+Create a single class
 
   require 'sk_sdk/base'
-  # simple object creating
+
   class Client < SK::SDK::Base;end
 
-  # create objects in custom King namespace
+  # connection using BasicAuth
+  Client.set_connection {:site => 'https://my_sub.salesking.eu/api',
+                         :user => 'my-users@login-email.com',
+                         :password => 'password' })
+
+  client = Client.new(:last_name => 'Ding', :organisation => "Carpenters Inc.")
+  client.first_name = "Bill"
+  client.save
+
+
+Create multiple classes at once
+
+  require 'sk_sdk/base'
   module; King; end
   %w[Client Invoice Product LineItem].each do |model|
     eval "class King::#{model} < SK::SDK::Base;end"
   end
 
-  # add your connection settings
+  # connection using oAuth access token
   SK::SDK::Base.set_connection {:site => 'https://my_sub.salesking.eu/api',
-                                :user => 'my-users@login-email.com',
-                                :password => 'password' })
-  #OR Use an oAuth access token
-  #SK::SDK::Base.set_connection {:site => 'https://my_sub.salesking.eu/api',
-  #                              :token => 'someAccessToken'})
-  
-  # use it
-  client = Client.new(:last_name=> 'Meister')
-  client.first_name = "Bau"
-  client.save
-  credit_note = King::CreditNote.new
+                                :token => 'someAccessToken'})
 
-You MUST provide the full url using the right protocol when you set the
-connection and remember our production system only supports HTTPS:
-  http/https + SUBDomain + salesking url + /api
-
-The old ArCli.make method to create the classes, still exists but is deprecated:
-
-  require "sk_sdk/ar_cli"
-  SK::SDK::ArCli.make(:client)
-
-  # OR create a class within a namespace
-  module; King; end
-  SK::SDK::ArCli.make(:credit_note, King)
+  invoice = Invoice.new
+  invoice.title = "Hosting 2011"
+  item = LineItem.new { :position=>1, :name => 'Daily Backup',
+                        :quantity_unit=> 'Month', :quantity => 12,
+                        :price_single => 10.00 }
+  invoice.line_items = [ item ]
+  invoice.status = 'open'
+  invoice.save
 
 
 Want to know more about REST style webservices?
@@ -90,31 +93,39 @@ Want to know more about REST style webservices?
 
 === Authentification & Safety
 
-Authentification can be done with oAuth2 but we still support HTTP BasicAuth 
-using your SalesKing login email and password. oAuth examples(support) will
-follow.
+Authentification should be done with oAuth2, but we still support HTTP BasicAuth
+using your SalesKing login email and password. 
 
-For a production environment be advised to create a user, per api client, and
-restrict his rights with our build in role-system!
+For a production environment using HTTP BasicAuth you should create one user
+per api client and restrict his rights with our role-system!
 
+=== Hints on ActiveResource
 
-=== API Tutorial and Tools
+* Most of the magic is coming from ActiveResource so you should read {its readme and code}[https://github.com/rails/rails/tree/master/activeresource]
+* This client does NOT rely on parsing the JSON Schema, since ActiveResource(AR) creates the Getter/Setter methods.
+* We added some patches for AR to fix JSON parsing issues, due to our nesting.
+* non-restful routes can be accessed by custom methods {see examples in AR}[https://github.com/rails/rails/blob/master/activeresource/lib/active_resource/custom_methods.rb]
+  Invoice.find('uuid').post(:print, :template_id => 'pdf-template-uuid')
 
-Since browsers do not support PUT/DELETE methods you can use CURL, a linux
-command-line http client, for testing. And of course any http library supporting
-http-basic-auth can be used.
+=== Tutorials & Tools
 
-* Getting started: http://dev.blog.salesking.eu/api/
-* ActiveResource readme: https://github.com/rails/rails/tree/master/activeresource
-* Chrome cRest extension https://chrome.google.com/extensions/detail/baedhhmoaooldchehjhlpppaieoglhml
-* Poster FF-Plugin - make HTTP request https://addons.mozilla.org/en-US/firefox/addon/2691/  (you must be logged into SalesKing)
-* JSONView  FF-Plugin - view json in firefox https://addons.mozilla.org/de/firefox/addon/10869/
-* JSONovich FF-Plugin -  https://addons.mozilla.org/de/firefox/addon/10122/
+Since browsers do not support PUT/DELETE methods you can use CURL(a linux
+command-line http client) for testing. And of course any http library supporting
+http-basic-auth.
+
+* {Getting started tutorial}[http://dev.blog.salesking.eu/api/]
+* {SalesKing API Schema}[https://github.com/salesking/sk_api_schema]
+* {Chrome cRest extension}[https://chrome.google.com/extensions/detail/baedhhmoaooldchehjhlpppaieoglhml]
+* {Poster FF-Plugin - make HTTP request}[https://addons.mozilla.org/en-US/firefox/addon/2691/]  (you must be logged into SalesKing)
+* {JSONView  FF-Plugin - view json in firefox}[https://addons.mozilla.org/de/firefox/addon/10869/]
+* {JSONovich FF-Plugin}[https://addons.mozilla.org/de/firefox/addon/10122/]
 
 == Tests / Specs
 
-Take a look into spec/resources to see a how-to
+Please read the tests as they provide some more examples especially those in
+spec/resources
 
+Run the specs with:
   rake coverage
 
 Copyright (c) 2011 Georg Leciejewski, released under the MIT license
