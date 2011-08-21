@@ -5,6 +5,7 @@ require "active_support"
 require "active_support/json"
 require "#{File.dirname(__FILE__)}/../lib/sk_sdk"
 require "#{File.dirname(__FILE__)}/../lib/sk_sdk/base"
+require "#{File.dirname(__FILE__)}/../lib/sk_sdk/field_sync"
 require "#{File.dirname(__FILE__)}/../lib/sk_sdk/oauth"
 require "#{File.dirname(__FILE__)}/../lib/sk_sdk/signed_request"
 

@@ -1,6 +1,8 @@
 CONNECTION = {
-    :site => "http://demo.salesking.local:3000/api/",
-    :password => "demo",
+    :site => "https://demo.dev.salesking.eu/api/",
+    :password => "demouser",
+#    :site => "http://demo.salesking.local:3000/api/",
+#    :password => "demo",
     :user => "demo@salesking.eu"
 } unless defined?(CONNECTION)
 

@@ -23,7 +23,7 @@ All classes must be explicitly required so each can be used on their own.
   require 'sk_sdk/oauth'
   require 'sk_sdk/base'
 
-=== API client
+=== API client Base
 
 Uses ActiveResource to CRUD SalesKing object's {see usage in README}[https://github.com/salesking/sk_sdk/blob/master/lib/sk_sdk/README_Base.rdoc]
 
@@ -36,6 +36,12 @@ There also is an omniAuth strategy in case you are using it.
 
 Helping in de/encoding of signed_request parameter available in canvas pages and
 PubSub/Webhook callbacks.
+
+=== FieldSync
+
+Normalize data to match internal data structures. Synchronize local and
+remote objects through a field mapping and get information about up/outdated
+fields.
 
 == Usage
 
