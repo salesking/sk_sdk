@@ -13,6 +13,12 @@ describe SK::SDK::Sync do
     @sync.fields.first.should be_a_kind_of SK::SDK::Sync::Field
   end
 
+  it "should raise error with wrong side" do
+    lambda{
+      @sync.update(:x)
+    }.should raise_error(ArgumentError)
+  end
+
   it "should not be outdated" do
     @sync.outdated?.should be_false # both objects are empty
   end
@@ -34,7 +40,22 @@ describe SK::SDK::Sync do
   it "should update outdated local fields" do
     @r_obj.first_name = 'Heinz'
     @sync.update_local_outdated
-    @r_obj.first_name.should == @l_obj.firstname
+    @l_obj.firstname.should == @r_obj.first_name
+    @sync.log.length.should == 1
+  end
+
+  it "should update outdated remote fields with transition" do
+    @l_obj.gender = 'female'
+    @sync.update_remote_outdated
+
+    @r_obj.gender.should == "f"
+    @sync.log.should_not be_empty
+  end
+
+  it "should update outdated local fields with transition" do
+    @r_obj.gender = 'm'
+    @sync.update_local_outdated
+    @l_obj.gender.should == 'male'
     @sync.log.length.should == 1
   end
 

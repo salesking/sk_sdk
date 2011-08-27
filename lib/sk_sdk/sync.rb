@@ -18,26 +18,25 @@ module SK::SDK
   # 
   # ==== Example
   #
-  #  contact_map = {
-  #     :l => :name,
-  #     :r => :firstname,
-  #     :trans => {
-  #       :obj => 'ContactMapping',
-  #       :l =>:set_local_name,
-  #       :r => :set_remote_name
-  #     }
+  #  map = {
+  #     :name => :firstname,
+  #     :trans => {:'someClass.set_local_name' => :'SomeClass.set_remote_name' }
   #   }
-  #   map = SK::SDK::Sync.new(@local_user, @remote_user, contact_map)
-  #   map.update_remote #Does not save! only sets the field values on the remote object
+  #   map = SK::SDK::Sync.new(@local_user, @remote_user, map)
+  #   map.update(:r) #Does not save! only sets the field values on the remote object
   #
-  # ==== Mapping Hash Explanation
-  #
+  # ==== Mapping Explanation
+  # the mapping uses the local name as key and the remote name as value. If a
+  # transitions must be done between both values set the :trans key with the
+  # to_local method name as key and the to_remote-method name as value.
+  # Those methods will be called(eval'ed) and receive the value from the other
+  # side as param:
   #  {
-  #    :l => :name,               => Local fieldname
-  #    :r => :firstname,          => remote fieldname
-  #    :obj => 'ATransitionClass',      => The class which hold the following Transition methods as Class.methods
-  #    :l =>:set_local_name,     =>  Method called when local field is updated
-  #    :r => :set_remote_name    =>  Method called when remote field is update
+  #    :local_fieldname => :remote_fieldname
+  #    # Method are eval'ed and receive the value from the other side as parameter
+  #    :trans =>
+  #      eval'ed when local field is updated => eval'ed when remote field is update
+  #    {:'SomeClass.set_local_name' => :'SomeClass.set_remote_name' }
   #  }
   class Sync
 
@@ -106,22 +105,11 @@ module SK::SDK
 
     # update all local outdated fields with values from remote object
     def update_local_outdated
-      update_local(@outdated) if outdated?
+      update(:l, @outdated) if outdated?
     end
     # update all remote outdated fields with values from local object
     def update_remote_outdated
-      update_remote(@outdated) if outdated?
-    end
-
-    # update all local fields with values from remote
-    def update_local(flds=nil)
-      update(:l, flds)
-    end
-
-    # Update all or given remote fields with the value of the local fields
-    #
-    def update_remote(flds=nil)
-      update(:r, flds)
+      update( :r, @outdated) if outdated?
     end
 
     # Update a side with the values from the other side.
@@ -181,8 +169,7 @@ module SK::SDK
       def transition?
         @l_trans && @r_trans
       end
-
-    end
+    end # class Field
 
 
   end # Sync
