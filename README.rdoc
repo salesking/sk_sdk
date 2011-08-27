@@ -37,11 +37,11 @@ There also is an omniAuth strategy in case you are using it.
 Helping in de/encoding of signed_request parameter available in canvas pages and
 PubSub/Webhook callbacks.
 
-=== FieldSync
+=== Sync
 
-Normalize data to match internal data structures. Synchronize local and
-remote objects through a field mapping and get information about up/outdated
-fields.
+Synchronize a local with an remote object. Tackles the problem of normalizing
+objects to match internal data structures. Synchronization is done by a
+field-mapping which also supports transition methods for each way.
 
 == Usage
 

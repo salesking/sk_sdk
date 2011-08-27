@@ -1,3 +1,4 @@
+
 require 'spec/spec_helper'
 
 describe SK::SDK::Sync do
@@ -60,16 +61,12 @@ describe SK::SDK::Sync do
   end
 
   def field_map
-#    [
-#      [:firstname, :first_name, :set_local_name, :set_remote_name],
-#    ]
     [
-      {:firstname => :first_name},
-      {:street => :address1},
-      {:postcode => :zip},
-      {:city => :city},
-      {:gender => :gender, :trans => { "TransMethods.set_local_gender" => :'TransMethods.set_remote_gender'}
-      }
+      [:firstname, :first_name],
+      [:street, :address1],
+      [:postcode, :zip],
+      [:city, :city],
+      [:gender, :gender, :'TransMethods.set_local_gender', :'TransMethods.set_remote_gender']
     ]
   end
 

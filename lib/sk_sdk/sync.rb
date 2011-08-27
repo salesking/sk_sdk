@@ -1,43 +1,39 @@
-class Object
-  # http://www.siaris.net/index.cgi/Programming/LanguageBits/Ruby/DeepClone.rdoc
-  def deep_clone
-    Marshal::load(Marshal.dump(self))
-  end
-
-end
-
 module SK::SDK
+
   # Provide methods for mapping and syncing the fields of a remote to local
   # object.
-  # The class holds a remote and a local object. It works with a hash which
-  # maps the fields between those two.
-  # If you use such a mapping both of your objects MUST respond to the method
-  # names passed in the mapping-table(hash)
+  # The class gets two objects(local/remote) and a field-map(Array) which
+  # maps the field-names between those two. Of course your objects MUST respond
+  # to the method names passed in the mapping.
   #
-  # When an object is updated you can check the #log for changes
+  # When syncing the corresponding fields, the names are simply #send to each
+  # object.
+  #
+  # After an object was updated you can check the #log for changes
   # 
-  # ==== Example
+  # == Example
   #
-  #  map = {
-  #     :name => :firstname,
-  #     :trans => {:'someClass.set_local_name' => :'SomeClass.set_remote_name' }
-  #   }
+  #  map =[
+  #   [:name, :full_name, :'someClass.set_local_name', :'SomeClass.set_remote_name'],
+  #   [:street, :address1]
+  #  ]
   #   map = SK::SDK::Sync.new(@local_user, @remote_user, map)
   #   map.update(:r) #Does not save! only sets the field values on the remote object
   #
-  # ==== Mapping Explanation
-  # the mapping uses the local name as key and the remote name as value. If a
-  # transitions must be done between both values set the :trans key with the
-  # to_local method name as key and the to_remote-method name as value.
+  # == Mapping Explanation
+  # 
+  # A mapping consist of the local and the remote field name. It can further
+  # contain transition methods if the value needs to be changed when set from
+  # one side to the other.
+  #
   # Those methods will be called(eval'ed) and receive the value from the other
   # side as param:
-  #  {
-  #    :local_fieldname => :remote_fieldname
-  #    # Method are eval'ed and receive the value from the other side as parameter
-  #    :trans =>
-  #      eval'ed when local field is updated => eval'ed when remote field is update
-  #    {:'SomeClass.set_local_name' => :'SomeClass.set_remote_name' }
-  #  }
+  #
+  # Mappings are passed as an array:
+  # [
+  #   [:local_field_name, :remote_field_name, "SomeClass.left_trans", "SomeClass.rigt_trans"]
+  #   [:firstname, :first_name, :'SomeClass.set_local_name', :'SomeClass.set_remote_name']
+  # ]
   class Sync
 
     # The local object
@@ -64,7 +60,7 @@ module SK::SDK
       @log = []
     end
 
-    # == Parameter
+    # === Parameter
     # field_map<Array[Hash{}]>::
     def fields=(field_map)
       @fields = []
@@ -85,7 +81,7 @@ module SK::SDK
 
     # Check if the any of the fields are outdated
     # Populates self.outdated with outdated local field names
-    # ==== Returns
+    # === Returns
     # <Boolean>:: false if not outdated
     def outdated?
       @outdated = []
@@ -114,7 +110,7 @@ module SK::SDK
 
     # Update a side with the values from the other side.
     # Populates the log with updated fields and values.
-    # == Parameter
+    # === Parameter
     # side<String|Symbol>:: the side to update l OR r
     # flds<Array[Field] | nil>:: fields to update, if nil all fields are updated
     def update(side, flds)
@@ -147,23 +143,23 @@ module SK::SDK
     class Field
       attr_reader :l_name, :r_name, :l_trans, :r_trans
 
-      # Create a new sync field. the local and remote name MUSt be set.
+      # Create a new sync field. the local and remote name MUST be set.
       # Transition methods are optional.
       #
       # == Example
-      #
-      # opts = {:local_name => :remote_name,
-      #         :trans => "SomeClass.left_trans" =>> "SomeClass.rigt_trans" }
+
+      # With options as array:
+      # opts = [:local_name, :remote_name, "SomeClass.left_trans", "SomeClass.rigt_trans"]
       # fld = Field.new opts
       #
       # == Parameter
       # opts<Hash>::
       def initialize(opts)
-        if trans = opts.delete(:trans)
-          @l_trans, @r_trans = trans.shift
+        if opts.is_a? Array
+          @l_trans, @r_trans = opts[2], opts[3] if opts.length == 4
+          @l_name = opts[0]
+          @r_name = opts[1]
         end
-        @l_name = opts.keys.first
-        @r_name = opts.values.first
       end
 
       def transition?
