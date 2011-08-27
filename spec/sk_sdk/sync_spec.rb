@@ -60,6 +60,37 @@ describe SK::SDK::Sync do
     @sync.log.length.should == 1
   end
 
+  it "should update all remote fields" do
+    @l_obj.firstname = 'John'
+    @l_obj.street = 'Sync Ave 666'
+    @l_obj.postcode = '96969'
+    @l_obj.city = 'Wichita'
+    @l_obj.gender = 'female'
+    @sync.update(:r)
+
+    @r_obj.first_name.should == @l_obj.firstname
+    @r_obj.address1.should == @l_obj.street
+    @r_obj.zip.should == @l_obj.postcode
+    @r_obj.city.should == @l_obj.city
+    @r_obj.gender.should == "f"
+    @sync.log.should_not be_empty
+  end
+
+  it "should update all local fields" do
+    @r_obj.gender = 'm'
+    @r_obj.first_name = 'John'
+    @r_obj.address1 = 'Sync Ave 666'
+    @r_obj.zip = '96969'
+    @r_obj.city = 'Wichita'
+    @sync.update(:l)
+
+    @l_obj.firstname.should == @r_obj.first_name
+    @l_obj.street.should == @r_obj.address1
+    @l_obj.postcode.should == @r_obj.zip
+    @l_obj.city.should == @r_obj.city
+    @l_obj.gender.should == 'male'
+    @sync.log.length.should == 5
+  end
   def field_map
     [
       [:firstname, :first_name],

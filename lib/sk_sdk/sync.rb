@@ -113,14 +113,12 @@ module SK::SDK
     # === Parameter
     # side<String|Symbol>:: the side to update l OR r
     # flds<Array[Field] | nil>:: fields to update, if nil all fields are updated
-    def update(side, flds)
+    def update(side, flds=nil)
       raise ArgumentError, 'The side to update must be :l or :r' unless [:l, :r].include?(side)
       target, source = (side==:l) ? [:l, :r] : [:r, :l]
       # use set field/s or update all
       flds ||= fields
-      # set the current object depending on copy from left => right or right => left
-      target_obj, source_obj = (side == :l) ? [l_obj, r_obj] : [r_obj, l_obj]
-
+      target_obj, source_obj = self.send("#{target}_obj"), self.send("#{source}_obj")
       flds.each do |fld|
         target_name, source_name = fld.send("#{target}_name"), fld.send("#{source}_name")
         # remember for log
