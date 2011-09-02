@@ -15,7 +15,8 @@ module OmniAuth
       def initialize(app, client_id, client_secret, sk_url, scope)
         @base_url = sk_url
         @scope = scope
-        super(app, :salesking, client_id, client_secret)
+        client_options = {:access_token_path => '/oauth/token'}
+        super(app, :salesking, client_id, client_secret, client_options)
       end
 
       #inject salesking url and scope

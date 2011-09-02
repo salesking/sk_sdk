@@ -53,8 +53,7 @@ module SK::SDK
 
     # URL to get the access_token, used in the second step after you have
     # requested the authorization and gotten a code
-    # The token url is located at /oauth/token like proposed in draft oAuth2.16
-    # but can still be reached at /access_token so older libs still work
+    # The token url is located at /oauth/token 
     # === Parameter
     # code<String>:: code received after auth
     # === Returns
