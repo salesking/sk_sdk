@@ -116,4 +116,34 @@ else
   #    @doc.line_items.[1].zip.should == '40001'
     end
   end
+
+  describe CreditNote, "with status change" do
+
+    before :all do
+      @doc = CreditNote.new :title => 'Status test'
+    end
+
+    after :all do
+  #    @doc.destroy
+#      lambda {
+#        doc = CreditNote.find(@doc.id)
+#      }.should raise_error(ActiveResource::ResourceNotFound)
+    end
+
+    it "should update from draft to open and set number with date" do
+      @doc.save.should be_true
+      @doc.status.should == 'draft'
+
+      @doc.status = 'open'
+      @doc.save
+      @doc.status.should == 'open'
+      @doc.number.should_not be_empty
+      @doc.date.should_not be_empty
+      # make draft to be deleted
+      @doc.status = 'draft'
+      @doc.save
+      @doc.destroy
+    end
+
+  end
 end
