@@ -94,6 +94,16 @@ Want to know more about REST style webservices?
 * http://en.wikipedia.org/wiki/Representational_State_Transfer
 * http://www.google.com/search?q=REST+site%3Awww.infoq.com
 
+
+== Available Data fields and endpoints
+
+All objects and their endpoints are described in a json schema. You should read
+it and especially take a look at the schema's link section, where you can find
+available endpoints(urls), their nesting and parameters.
+
+* {JSON-Schema }[https://github.com/salesking/sk_api_schema/tree/master/json]
+* {API Browser visualized JSON Schema}[http://sk-api-browser.heroku.com/]
+
 == Hints on ActiveResource
 
 * Most of the magic is coming from ActiveResource so you should read {its README and code}[https://github.com/rails/rails/tree/master/activeresource]
