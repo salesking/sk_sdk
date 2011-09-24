@@ -1,4 +1,4 @@
-= SalesKing API Client
+= SalesKing API Client - SK::SDK::Base
 
 Easily access SalesKing resources in a RESTfull way with this ActiveResource
 based SalesKing API client.
@@ -112,17 +112,17 @@ Or use CURL, if you prefer the command line:
   curl -u your@login-mail.com:password \
   https://demo.salesking.eu/clients
 
-<b>Request Method overview:</b>
-GET => read
-POST => create new data
-PUT => update data
-DELETE => delete data
+Request Method overview:
+  GET => read
+  POST => create new data
+  PUT => update data
+  DELETE => delete data
 
 Want to know more about REST style webservices?
 * http://en.wikipedia.org/wiki/Representational_State_Transfer
 * http://www.google.com/search?q=REST+site%3Awww.infoq.com
 
-=== GET / Show data
+=== GET / Show
 
 A list of resources:
   GET xy.salesking.eu/api/invoices
@@ -168,14 +168,12 @@ Available filters are defined in each json-schema's instances link ({see invoice
   # find all documents for one or more client
   GET xy.salesking.eu/api/documents?filter[client_ids]=:id,:id
 
-=== POST / Create data
+=== POST / Create
 
 To create a resource make a POST request containing the json for a single resource.
 
   Header: content-type application/json
   POST https://my-sub.salesking.eu/invoices.json 
-
-This a minimal json to create a draft invoice:
 
   {"invoice": {
     "title": "Your service subscription 2011",
@@ -205,11 +203,9 @@ This a minimal json to create a draft invoice:
 
 === DELETE
 
-To delete a record simply issue a DELETE request to a resource url:
+A DELETE request to a resource url deletes and returns the deleted object:
 
     DELETE https://demo.salesking.eu/clients/:id
-
-This method returns the deleted object
 
 == Hints on ActiveResource
 
@@ -217,6 +213,8 @@ This method returns the deleted object
 * This client does NOT rely on parsing the JSON Schema, since ActiveResource(AR) creates the Getter/Setter methods.
 * We added some patches for AR to fix JSON parsing issues, due to our nesting.
 * non-restful routes can be accessed by custom methods {see examples in AR}[https://github.com/rails/rails/blob/master/activeresource/lib/active_resource/custom_methods.rb]
+  
+E.g calling the print method a a document:
   Invoice.find('uuid').post(:print, :template_id => 'pdf-template-uuid')
 
 == Tutorials & Tools
