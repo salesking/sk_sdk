@@ -21,7 +21,7 @@ If you are using bundler add to Gemfile
 
 == Usage
 
-An initializers/omniauth.rb might look somethign like this:
+An initializers/omniauth.rb might look something like this:
   # if you copied the file into your lib/
   require File.expand_path('../../../lib/sk_auth', __FILE__)
   # or from gem

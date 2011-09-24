@@ -1,7 +1,8 @@
 = SalesKing SDK
 
-A bunch of classes to get a quick start creating SalesKing App's, using oAuth
-and the API.
+Automate your workflow's by integrating and connecting your business with SalesKing.
+This Ruby Software-Development-Kit provides solid and handy tools for building
+SalesKing App's(using oAuth2) and API clients.
 
 
 == Install
@@ -22,26 +23,27 @@ All classes must be explicitly required so each can be used on their own.
   require 'sk_sdk/signed_request'
   require 'sk_sdk/oauth'
   require 'sk_sdk/base'
+  require 'sk_sdk/sync'
 
-=== API client Base
+=== API client
 
-Uses ActiveResource to CRUD SalesKing object's {see usage in README}[https://github.com/salesking/sk_sdk/blob/master/lib/sk_sdk/README_Base.rdoc]
+Uses ActiveResource to CRUD SalesKing object's {see usage in README}[https://github.com/salesking/sk_sdk/blob/master/lib/sk_sdk/]
 
-=== oAuth
+=== {oAuth}[https://github.com/salesking/sk_sdk/blob/master/lib/sk_sdk/oauth.rb]
 
-Handling oAuth related URL's and getting an access token.
-There also is an omniAuth strategy in case you are using it.
+Get an oAuth2 access token and create oAuth related URL's.
+There also is an {omniAuth strategy}[https://github.com/salesking/sk_sdk/blob/master/lib/sk_sdk/omni_auth].
 
-=== SignedRequest
+=== {SignedRequest}[https://github.com/salesking/sk_sdk/blob/master/lib/sk_sdk/signed_request.rb]
 
-Helping in de/encoding of signed_request parameter available in canvas pages and
-PubSub/Webhook callbacks.
+De/encoding of signed_request parameter on canvas pages and PubSub/Webhook
+callbacks.
 
-=== Sync
+=== {Sync}[https://github.com/salesking/sk_sdk/blob/master/lib/sk_sdk/sync.rb]
 
-Synchronize a local with an remote object. Tackles the problem of normalizing
-objects to match internal data structures. Synchronization is done by a
-field-mapping which also supports transition methods for each way.
+Map & Synchronize fields of a local with an remote object. Tackles the problem
+of normalizing objects to match internal data structures. Synchronization is
+done by a field-mapping and also sports transition methods for each way.
 
 == Usage
 
