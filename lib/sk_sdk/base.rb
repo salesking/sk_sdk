@@ -15,9 +15,9 @@ class SK::SDK::Base < ActiveResource::Base
   self.format = :json
   # hook before init in activeresource base because json comes in nested:
   # {client={data}
-  def initialize(attributes = {})
+  def initialize(attributes = {}, *args)
     attr = attributes[self.class.element_name] || attributes
-    super(attr)
+    super(attr, *args)
   end
 
   def save; save_with_validation; end

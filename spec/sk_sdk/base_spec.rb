@@ -35,4 +35,10 @@ describe SK::SDK::Base, "make new class" do
     p.new_record?.should be_true
   end
 
+  it "should allow multiple parameters in initializer" do
+    expect {
+      Client.new({ :first_name => 'herbert' }, true)
+    }.should_not raise_error(ArgumentError)
+  end
+
 end
