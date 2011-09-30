@@ -71,7 +71,7 @@ Create a single class
   class Client < SK::SDK::Base;end
 
   # connection using BasicAuth
-  Client.set_connection {:site => 'https://my_sub.salesking.eu/api',
+  Client.set_connection( {:site => 'https://my_sub.salesking.eu/api',
                          :user => 'my-users@login-email.com',
                          :password => 'password' })
 
@@ -88,7 +88,7 @@ Create multiple classes at once
   end
 
   # connection using oAuth access token
-  SK::SDK::Base.set_connection {:site => 'https://my_sub.salesking.eu/api',
+  SK::SDK::Base.set_connection( {:site => 'https://my_sub.salesking.eu/api',
                                 :token => 'someAccessToken'})
 
   invoice = Invoice.new
