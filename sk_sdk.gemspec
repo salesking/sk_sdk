@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Georg Leciejewski"]
-  s.date = %q{2011-09-02}
+  s.date = %q{2011-10-02}
   s.description = %q{Connect your business world with SalesKing. This gem gives ruby developers a jump-start for building SalesKing Business Apps. It provides classes to handle oAuth, make RESTfull API requests and parses JSON Schema  }
   s.email = %q{gl@salesking.eu}
   s.extra_rdoc_files = [
@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
     "VERSION",
     "ci/Gemfile",
     "lib/sk_sdk.rb",
-    "lib/sk_sdk/README_Base.rdoc",
+    "lib/sk_sdk/README.rdoc",
     "lib/sk_sdk/ar_patches/ar2/base.rb",
     "lib/sk_sdk/ar_patches/ar2/validations.rb",
     "lib/sk_sdk/ar_patches/ar3/base.rb",

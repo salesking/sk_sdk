@@ -4,7 +4,7 @@ describe SK::SDK::SignedRequest, "in general" do
 
   before :each do
     #setup test oAuth-data to work with
-    load_settings
+    @set = oauth_settings
     # fake request
     @param_hash = {'hello' =>'coder', 'algorithm' => 'HMAC-SHA256'}
     @param = SK::SDK::SignedRequest.signed_param( ActiveSupport::JSON.encode(@param_hash), @set['secret'] )

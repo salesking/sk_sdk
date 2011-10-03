@@ -1,7 +1,0 @@
-sk_url: http://*.horsts-lokal.local
-canvas_slug: canvas-page
-id: 2d83d570635ee19c
-secret: eb4005858e4947e4228a12a6b7306ee0
-redirect_url:  http://localhorst:4567
-scope: "api/payments:read api/invoices:read"
-session_secret: very_long_random_to_encode_the_session

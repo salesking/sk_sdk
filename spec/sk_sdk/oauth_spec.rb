@@ -4,7 +4,7 @@ describe SK::SDK::Oauth, "in general" do
 
   before :each do
     #setup test oAuth-data to work with
-    load_settings
+    @set = oauth_settings
   end
 
   it "should create a new instance" do

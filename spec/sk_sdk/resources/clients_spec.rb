@@ -1,4 +1,3 @@
-require 'spec_helper'
 require 'resources_spec_helper'
 
 unless sk_available?

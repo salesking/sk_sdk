@@ -1,4 +1,3 @@
-require 'spec_helper'
 require 'resources_spec_helper'
 
 unless sk_available?
@@ -37,12 +36,17 @@ else
     end
 
     it "should fail create a doc without unique number" do
+      kick_existing(CreditNote, '001')
       doc = CreditNote.new(:number=>'001')
       doc.save.should == true
       doc2 = CreditNote.new(:number=>'001')
       doc2.save.should == false
       doc2.errors.count.should == 2
-      doc2.errors.on(:number).should == "has already been taken"
+      if doc2.errors.respond_to? :on # TODO kick with AR 2.3
+        doc2.errors.on(:number).should == "has already been taken"
+      else
+        doc2.errors[:number].should == "has already been taken"
+      end
       doc.destroy
     end
 
@@ -62,6 +66,7 @@ else
     end
 
     it "should fail edit with wrong number" do
+      kick_existing(CreditNote, '002')
       doc1 = CreditNote.new(:number=>'002')
       doc1.save.should == true
       @doc.number = '002'

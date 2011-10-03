@@ -1,14 +1,9 @@
-CONNECTION = {
-    :site => "http://demo.salesking.local:3000/api/",
-    :password => "demo",
-    :user => "demo@salesking.eu"
-} unless defined?(CONNECTION)
-
+require 'spec_helper'
 # create all classes and set their connection
 %w[Client Address CreditNote Invoice Product LineItem User].each do |model|
   eval "class #{model} < SK::SDK::Base;end" unless Object.const_defined?(model)
 end
-SK::SDK::Base.set_connection CONNECTION
+SK::SDK::Base.set_connection basic_auth_settings
 
 # check if a SalesKing instance is available by calling /users/current.json
 def sk_available?
@@ -20,6 +15,14 @@ def sk_available?
 
 end
 
+# Params
+# obj<Class>:: class name
+# number<String>:: the document number the kick
+def kick_existing(obj, number)
+  if existing = obj.find(:first, :params =>{ :filter=>{ :number => number } })
+    existing.destroy
+  end
+end
 
 def delete_test_data(doc, client)
   doc.destroy

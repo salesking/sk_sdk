@@ -12,7 +12,7 @@ SalesKing App's(using oAuth2) and API clients.
 Dependencies (gem's):
 
 * activesupport
-* activeresource
+* activeresource v2.3.x, v3.1 (v3.0.10 until sk_sdk v0.0.8)
 * curb
 * sk_api_schema
 
@@ -55,6 +55,9 @@ Before you run the tests use bundler to install all required gems:
   # git clone
   # cd into dir
   BUNDLE_GEMFILE=ci/Gemfile bundle install
+
+  # create /spec/settingsyml from default
+  # run specs with most recent version of activeresource
   BUNDLE_GEMFILE=ci/Gemfile bundle exec rake spec
 
 Copyright (c) 2011 Georg Leciejewski, released under the MIT license

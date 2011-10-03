@@ -1,4 +1,4 @@
-require 'spec_helper'
+#require 'spec_helper'
 require 'resources_spec_helper'
 
 unless sk_available?
@@ -37,12 +37,12 @@ describe Invoice, "a new invoice" do
   end
 
   it "should create a doc" do
-    doc = Invoice.new()
+    doc = Invoice.new
     doc.title = 'A Document from the API'
     doc.notes_before = 'Your shiny new invoice [number]'
     doc.notes_after = 'Please pay me'
     doc.client_id = @client.id
-    doc.save
+    doc.save.should be_true
     doc.errors.should be_empty
     doc.new?.should be_false
     doc.notes_before.should == 'Your shiny new invoice [number]'
@@ -50,7 +50,7 @@ describe Invoice, "a new invoice" do
   end
 
   it "should create a doc with default before after texts" do
-    doc = Invoice.new()
+    doc = Invoice.new
     doc.title = 'A Document from the API'
     doc.client_id = @client.id
     doc.save
@@ -61,12 +61,18 @@ describe Invoice, "a new invoice" do
   end
 
   it "should fail create a doc without unique number" do
+    # if a test failed this invoice might still be present so try to delete
+    kick_existing(Invoice, '001')
     doc = Invoice.new(:number=>'001')
     doc.save.should == true
     doc2 = Invoice.new(:number=>'001')
     doc2.save.should == false
     doc2.errors.count.should == 2
-    doc2.errors.on(:number).should == "has already been taken"
+    if doc.errors.respond_to? :on
+      doc2.errors.on(:number).should == "has already been taken"
+    else
+      doc2.errors[:number].should == "has already been taken"
+    end
     doc.destroy
   end
 
@@ -79,7 +85,7 @@ describe Invoice, "Edit an invoice" do
     # create client
     @client = Client.new(:organisation=>'Invoice API-Tester')
     @client.save.should be_true
-    @doc = Invoice.new()
+    @doc = Invoice.new
     @doc.title = 'A Document from the API'
     @doc.notes_before = 'Your invoice [number]'
     @doc.client_id = @client.id
@@ -103,12 +109,17 @@ describe Invoice, "Edit an invoice" do
   end
 
   it "should fail edit with wrong number" do
+    kick_existing(Invoice, '002')
     doc1 = Invoice.new(:number=>'002')
     doc1.save.should == true
     @doc.number = '002'
     @doc.save.should == false
     @doc.errors.count.should == 2
-    @doc.errors.on(:number).should == "has already been taken"
+    if @doc.errors.respond_to? :on # TODO kick with AR 2.3
+      @doc.errors.on(:number).should == "has already been taken"
+    else
+      @doc.errors[:number].should == "has already been taken"
+    end
     doc1.destroy
   end
 end

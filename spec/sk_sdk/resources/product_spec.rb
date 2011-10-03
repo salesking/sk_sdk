@@ -1,4 +1,3 @@
-require 'spec_helper'
 require 'resources_spec_helper'
 
 unless sk_available?
@@ -56,7 +55,11 @@ else
       @product.name = ''
       @product.save.should == false
       @product.errors.count.should == 1
-      @product.errors.on(:name).should ==  "can't be blank"
+      if @product.errors.respond_to? :on # TODO kick with AR 2.3
+        @product.errors.on(:name).should == "can't be blank"
+      else
+        @product.errors[:name].should == "can't be blank"
+      end
     end
 
   end
