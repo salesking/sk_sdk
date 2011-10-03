@@ -45,7 +45,7 @@ else
       if doc2.errors.respond_to? :on # TODO kick with AR 2.3
         doc2.errors.on(:number).should == "has already been taken"
       else
-        doc2.errors[:number].should == "has already been taken"
+        doc2.errors[:number].should == ["has already been taken"]
       end
       doc.destroy
     end
@@ -72,7 +72,11 @@ else
       @doc.number = '002'
       @doc.save.should == false
       @doc.errors.count.should == 2
-      @doc.errors.on(:number).should == "has already been taken"
+      if @doc.errors.respond_to? :on # TODO kick with AR 2.3
+        @doc.errors.on(:number).should == "has already been taken"
+      else
+        @doc.errors[:number].should == ["has already been taken"]
+      end
       doc1.destroy
     end
   end
@@ -143,7 +147,7 @@ else
       @doc.save
       @doc.status.should == 'open'
       @doc.number.should_not be_empty
-      @doc.date.should_not be_empty
+      @doc.date.to_s.should_not be_empty
       # make draft to be deleted
       @doc.status = 'draft'
       @doc.save

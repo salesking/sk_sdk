@@ -3,4 +3,7 @@ coverage/*
 rdoc/*
 pkg/*
 ci/Gemfile.lock
+ci/Gemfile_ar2
+ci/vendor
+ci/.bundle
 spec/settings.yml

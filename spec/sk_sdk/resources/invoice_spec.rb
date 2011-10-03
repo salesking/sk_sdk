@@ -68,10 +68,10 @@ describe Invoice, "a new invoice" do
     doc2 = Invoice.new(:number=>'001')
     doc2.save.should == false
     doc2.errors.count.should == 2
-    if doc.errors.respond_to? :on
+    if doc2.errors.respond_to? :on
       doc2.errors.on(:number).should == "has already been taken"
     else
-      doc2.errors[:number].should == "has already been taken"
+      doc2.errors[:number].should == ["has already been taken"]
     end
     doc.destroy
   end
@@ -118,7 +118,7 @@ describe Invoice, "Edit an invoice" do
     if @doc.errors.respond_to? :on # TODO kick with AR 2.3
       @doc.errors.on(:number).should == "has already been taken"
     else
-      @doc.errors[:number].should == "has already been taken"
+      @doc.errors[:number].should == ["has already been taken"]
     end
     doc1.destroy
   end

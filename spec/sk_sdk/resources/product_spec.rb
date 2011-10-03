@@ -58,7 +58,7 @@ else
       if @product.errors.respond_to? :on # TODO kick with AR 2.3
         @product.errors.on(:name).should == "can't be blank"
       else
-        @product.errors[:name].should == "can't be blank"
+        @product.errors[:name].should == ["can't be blank"]
       end
     end
 

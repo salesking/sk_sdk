@@ -15,9 +15,16 @@ class SK::SDK::Base < ActiveResource::Base
   self.format = :json
   # hook before init in activeresource base because json comes in nested:
   # {client={data}
-  def initialize(attributes = {}, *args)
-    attr = attributes[self.class.element_name] || attributes
-    super(attr, *args)
+  if ActiveResource::VERSION::MAJOR == 3 #TODO Damn this is dirty .. we really need to get rid of backwards compat
+    def initialize(attributes = {}, *args)
+      attr = attributes[self.class.element_name] || attributes
+      super(attr, *args)
+    end
+  else
+    def initialize(attributes = {})
+      attr = attributes[self.class.element_name] || attributes
+      super(attr)
+    end
   end
 
   def save; save_with_validation; end
