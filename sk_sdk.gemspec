@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{sk_sdk}
-  s.version = "0.0.8"
+  s.version = "0.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Georg Leciejewski"]
-  s.date = %q{2011-10-02}
+  s.date = %q{2011-10-03}
   s.description = %q{Connect your business world with SalesKing. This gem gives ruby developers a jump-start for building SalesKing Business Apps. It provides classes to handle oAuth, make RESTfull API requests and parses JSON Schema  }
   s.email = %q{gl@salesking.eu}
   s.extra_rdoc_files = [
@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
     "Rakefile",
     "VERSION",
     "ci/Gemfile",
+    "ci/Gemfile_ar2.lock",
     "lib/sk_sdk.rb",
     "lib/sk_sdk/README.rdoc",
     "lib/sk_sdk/ar_patches/ar2/base.rb",
@@ -35,7 +36,7 @@ Gem::Specification.new do |s|
     "lib/sk_sdk/sync.rb",
     "sk_sdk.gemspec",
     "spec/resources_spec_helper.rb",
-    "spec/settings.yml",
+    "spec/settings.yml.default",
     "spec/sk_sdk/base_spec.rb",
     "spec/sk_sdk/oauth_spec.rb",
     "spec/sk_sdk/resources/README.rdoc",
