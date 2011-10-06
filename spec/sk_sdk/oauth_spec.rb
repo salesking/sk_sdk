@@ -16,6 +16,12 @@ describe SK::SDK::Oauth, "in general" do
     a.sub_domain = 'alki'
     a.sk_url.should == "http://alki.horsts-lokal.local"
   end
+  
+  it "should get salesking api url" do
+    a = SK::SDK::Oauth.new(@set)
+    a.sub_domain = 'alki'
+    a.sk_api_url.should == "http://alki.horsts-lokal.local/api"
+  end
 
   it "should get auth_dialog url" do
     a = SK::SDK::Oauth.new(@set)

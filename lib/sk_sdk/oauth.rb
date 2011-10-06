@@ -19,8 +19,8 @@ module SK::SDK
     # secret<String>:: oAuth app secret from SalesKing app registration
     # scope<String>:: permission your app requests
     # redirect_url<String>:: redirect url inside your app for auth dialog
-    # sk_url<String>:: SalesKing base url, * is replaced with users subdomain,
-    # default https://*.salesking.eu, optional
+    # sk_url<String>:: SalesKing base url, * is replaced with users subdomain, 
+    #   no trailing slash, optional defaults to https://*.salesking.eu
     # sub_domain<String>:: optinal, will probably be set later after a users
     # provided his subdomain
     def initialize(opts)
@@ -72,6 +72,13 @@ module SK::SDK
       c = Curl::Easy.perform( token_url( code ) )
       # grab token from response body, containing json string
       ActiveSupport::JSON.decode(c.body_str)
+    end
+
+    # The API url ist the salesking url of the current company + /api
+    # === Returns
+    # <String>:: base api url my-sub.salesking.eu/api
+    def sk_api_url
+      "#{sk_url}/api"
     end
 
     # Each company has it's own subdomain so the url must be dynamic.
