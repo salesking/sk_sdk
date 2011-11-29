@@ -64,6 +64,8 @@ remember we only support HTTPS:
   =>
   https://my_company.salesking.eu/api
 
+For convenience we check if your url ends in /api and add if you forgot it!
+
 Create a single class
 
   require 'sk_sdk/base'

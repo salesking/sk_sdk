@@ -64,9 +64,7 @@ module SK::SDK
     # field_map<Array[Hash{}]>::
     def fields=(field_map)
       @fields = []
-      field_map.each do |fld|
-        @fields << Field.new(fld)
-      end
+      field_map.each { |fld| @fields << Field.new(fld) }
       @fields
     end
 

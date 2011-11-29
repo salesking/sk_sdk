@@ -16,6 +16,26 @@ describe SK::SDK::Base, "make new class" do
     c.first_name.should == 'herbert' # implicit getter
   end
 
+  it "should set api url" do
+    opts = {:site => 'https://my.salesking.eu', :token=>'123'}
+    result = 'https://my.salesking.eu/api'
+
+    SK::SDK::Base.set_connection(opts)
+    SK::SDK::Base.site.to_s.should == result
+
+    opts[:site] = 'https://my.salesking.eu/'
+    SK::SDK::Base.set_connection(opts)
+    SK::SDK::Base.site.to_s.should == result
+
+    opts[:site] ='https://my.salesking.eu/api'
+    SK::SDK::Base.set_connection(opts)
+    SK::SDK::Base.site.to_s.should == result
+
+    opts[:site] = 'https://my.salesking.eu/api/'
+    SK::SDK::Base.set_connection(opts)
+    SK::SDK::Base.site.to_s.should == result
+  end
+
   it "should have properties as attributes" do
     c = Client.new :some_field => ''
     c.attributes.should == {"some_field"=>""}
