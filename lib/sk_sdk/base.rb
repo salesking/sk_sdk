@@ -14,7 +14,11 @@ end
 class SK::SDK::Base < ActiveResource::Base
   self.format = :json
   def initialize(attributes = {})
-    attr = attributes[self.class.element_name] || attributes
+    attr = if attributes.is_a?(self.class)
+      attributes.attributes
+    else
+      attributes[self.class.element_name] || attributes
+    end
     super(attr)
   end
 
