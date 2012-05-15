@@ -13,9 +13,9 @@ For bundler add this to the Gemfile
   # or directly require a used class
   gem "sk_sdk", :require => "sk_sdk/base"
 
-Dependencies (gem's):
+Dependencies (gems):
 
-* activeresupport
+* activesupport
 * activeresource
 
 == Authorization
@@ -35,7 +35,7 @@ library, it merely sets an AUTHORIZATION header if you added a token in the
 connection settings.
 
   AUTHORIZATION: Bearer YourAccessToken
-  
+
 More on oAuth here:
 * {oAuth helper class}[https://github.com/salesking/sk_sdk/blob/master/lib/sk_sdk/oauth.rb]
 * {oAuth docs}[http://dev.blog.salesking.eu/docs/authentication/].
@@ -150,7 +150,7 @@ Returned JSON data for a listings, abbreviated:
       "prev": "/api/clients?page=0",
       "next": "/api/clients?page=2",
       "self": "/api/clients?page=1"
-      }, 
+      },
     }
 
 === Filtering
@@ -175,7 +175,7 @@ Available filters are defined in each json-schema's instances link ({see invoice
 To create a resource make a POST request containing the json for a single resource.
 
   Header: content-type application/json
-  POST https://my-sub.salesking.eu/invoices.json 
+  POST https://my-sub.salesking.eu/invoices.json
 
   {"invoice": {
     "title": "Your service subscription 2011",
@@ -196,8 +196,8 @@ To create a resource make a POST request containing the json for a single resour
   Header: content-type application/json
   PUT /api/clients/:id
   {
-    'client': 
-    { 
+    'client':
+    {
       'gender':'male',
       'first_name': "Andrew"
     }
@@ -215,7 +215,7 @@ A DELETE request to a resource url deletes and returns the deleted object:
 * This client does NOT rely on parsing the JSON Schema, since ActiveResource(AR) creates the Getter/Setter methods.
 * We added some patches for AR to fix JSON parsing issues, due to our nesting.
 * non-restful routes can be accessed by custom methods {see examples in AR}[https://github.com/rails/rails/blob/master/activeresource/lib/active_resource/custom_methods.rb]
-  
+
 E.g calling the print method a a document:
   Invoice.find('uuid').post(:print, :template_id => 'pdf-template-uuid')
 
