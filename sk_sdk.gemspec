@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.version = "0.2.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Georg Leciejewski"]
-  s.date = %q{2011-12-21}
+  s.authors = [%q{Georg Leciejewski}]
+  s.date = %q{2012-05-21}
   s.description = %q{Connect your business world with SalesKing. This gem gives ruby developers a jump-start for building SalesKing Business Apps. It provides classes to handle oAuth, make RESTfull API requests and parses JSON Schema  }
   s.email = %q{gl@salesking.eu}
   s.extra_rdoc_files = [
@@ -50,8 +50,8 @@ Gem::Specification.new do |s|
     "spec/spec_helper.rb"
   ]
   s.homepage = %q{http://github.com/salesking/sk_sdk}
-  s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.6.2}
+  s.require_paths = [%q{lib}]
+  s.rubygems_version = %q{1.8.6}
   s.summary = %q{SalesKing SDK Ruby}
 
   if s.respond_to? :specification_version then
