@@ -57,7 +57,11 @@ describe SK::SDK::Base, "make new class" do
 
   it "should allow multiple parameters in initializer" do
     expect {
-      Client.new({ :first_name => 'herbert' })
+      if ActiveResource::VERSION::MAJOR == 3 && ActiveResource::VERSION::MINOR > 0
+        Client.new({ :first_name => 'herbert' }, true)
+      else
+        Client.new({ :first_name => 'herbert' })
+      end
     }.should_not raise_error(ArgumentError)
   end
 

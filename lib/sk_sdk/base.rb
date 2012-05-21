@@ -13,9 +13,18 @@ end
 
 class SK::SDK::Base < ActiveResource::Base
   self.format = :json
-  def initialize(attributes = {})
-    attr = attributes[self.class.element_name] || attributes
-    super(attr)
+  # hook before init in activeresource base because json comes in nested:
+  # {client={data}
+  if ActiveResource::VERSION::MAJOR == 3 && ActiveResource::VERSION::MINOR > 0
+    def initialize(attributes = {}, *args)
+      attr = attributes[self.class.element_name] || attributes
+      super(attr, *args)
+    end
+  else
+    def initialize(attributes = {})
+      attr = attributes[self.class.element_name] || attributes
+      super(attr)
+    end
   end
 
   def save; save_with_validation; end
