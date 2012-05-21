@@ -7,3 +7,5 @@ ci/Gemfile_ar2
 ci/vendor
 ci/.bundle
 spec/settings.yml
+.idea
+.rvmrc
