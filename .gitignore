@@ -1,4 +1,3 @@
-nbproject/*
 coverage/*
 rdoc/*
 pkg/*
@@ -7,3 +6,5 @@ ci/Gemfile_ar2
 ci/vendor
 ci/.bundle
 spec/settings.yml
+Gemfile.lock
+.rvmrc
