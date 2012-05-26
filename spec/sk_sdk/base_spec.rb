@@ -42,7 +42,7 @@ describe SK::SDK::Base, "make new class" do
   end
 
   it "should create save method" do
-    c = Client.new 
+    c = Client.new
     c.respond_to?(:save).should be_true
   end
 
@@ -57,7 +57,7 @@ describe SK::SDK::Base, "make new class" do
 
   it "should allow multiple parameters in initializer" do
     expect {
-      if ActiveResource::VERSION::MAJOR == 3
+      if ActiveResource::VERSION::MAJOR == 3 && ActiveResource::VERSION::MINOR > 0
         Client.new({ :first_name => 'herbert' }, true)
       else
         Client.new({ :first_name => 'herbert' })

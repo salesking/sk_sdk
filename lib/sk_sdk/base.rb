@@ -15,7 +15,7 @@ class SK::SDK::Base < ActiveResource::Base
   self.format = :json
   # hook before init in activeresource base because json comes in nested:
   # {client={data}
-  if ActiveResource::VERSION::MAJOR == 3 #TODO Damn this is dirty .. we really need to get rid of backwards compat
+  if ActiveResource::VERSION::MAJOR == 3 && ActiveResource::VERSION::MINOR > 0
     def initialize(attributes = {}, *args)
       attr = attributes[self.class.element_name] || attributes
       super(attr, *args)
@@ -43,7 +43,7 @@ class SK::SDK::Base < ActiveResource::Base
     self.format = :json # f*** xml
     if opts[:token] #oAuth access token in header
       self.headers['Authorization'] = "Bearer #{opts[:token]}"
-    else  
+    else
       self.user     = opts[:user]
       self.password = opts[:password]
     end
