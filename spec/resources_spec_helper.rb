@@ -4,7 +4,6 @@ require 'spec_helper'
   eval "class #{model} < SK::SDK::Base;end" unless Object.const_defined?(model)
 end
 SK::SDK::Base.set_connection basic_auth_settings
-
 # check if a SalesKing instance is available by calling /users/current.json
 def sk_available?
   begin
@@ -12,7 +11,6 @@ def sk_available?
   rescue Errno::ECONNREFUSED #ActiveResource::ResourceNotFound => e
     return false
   end
-
 end
 
 # Params

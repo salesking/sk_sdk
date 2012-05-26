@@ -1,5 +1,7 @@
 = SalesKing SDK
 
+{<img src="https://secure.travis-ci.org/salesking/sk_sdk.png?branch=master" alt="Build Status" />}[http://travis-ci.org/salesking/sk_sdk]
+
 Automate your workflow's by integrating and connecting your business with SalesKing.
 This Ruby Software-Development-Kit provides solid and handy tools for building
 SalesKing App's(using oAuth2) and API clients.
@@ -51,13 +53,20 @@ Read specs: https://github.com/salesking/sk_sdk/tree/master/spec/sk_sdk
 
 == Tests
 
-Before you run the tests use bundler to install all required gems:
-  # git clone
-  # cd into dir
-  BUNDLE_GEMFILE=ci/Gemfile bundle install
+Before you run the tests install required gems via bundler. We are providing
+several Gemfiles because of different patches for active_resource v2 vs v3.
+This definitly sucks, but as long as we stay with ARes we need to ensure it is
+working with every version.
 
-  # create /spec/settingsyml from default
-  # run specs with most recent version of activeresource
-  BUNDLE_GEMFILE=ci/Gemfile bundle exec rake spec
+Before running the specs, add your SalesKing credentials to /spec/settings.yml
+  cp spec/settings.yml.default spec/settings.yml
+
+  # test with most recent ARes version
+  bundle install
+  rake spec
+
+  #test with ARes 2
+  BUNDLE_GEMFILE=ci/Gemfile_ar2 bundle install
+  BUNDLE_GEMFILE=ci/Gemfile_ar2 bundle exec rake spec
 
 Copyright (c) 2011 Georg Leciejewski, released under the MIT license

@@ -3,7 +3,7 @@ require 'resources_spec_helper'
 unless sk_available?
   puts "Sorry cannot connect to your SalesKing server, skipping real connections tests. Please check connection settings in spec_helper"
 else
-  
+
   describe Client, "with real connection" do
 
     before :all do

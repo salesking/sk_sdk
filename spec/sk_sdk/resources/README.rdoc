@@ -1,9 +1,9 @@
 = SalesKing SDK Resources Specs
 
 The specs in here serve mainly as an example using the ActiveResource client
-with username+password to CRUD objects against a real sk server.
+with username+password to CRUD objects against a real SK server.
 
-Of course we also have internal specs for all api controllers but sometimes a
+Of course we also have internal specs for all api controllers, but sometimes a
 view from the outside can be revealing.
 
 Please be nice and DON'T misuse those tests!

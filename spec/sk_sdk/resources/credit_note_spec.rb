@@ -115,7 +115,7 @@ else
     end
 
     it "should add line item" do
-      item = LineItem.new :position=>2, :description => 'Goat-Pie', 
+      item = LineItem.new :position=>2, :description => 'Goat-Pie',
                           :price_single => 10, :quantity=>10
       @doc.line_items << item
       @doc.save

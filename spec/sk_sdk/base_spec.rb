@@ -17,23 +17,11 @@ describe SK::SDK::Base, "make new class" do
   end
 
   it "should set api url" do
-    opts = {:site => 'https://my.salesking.eu', :token=>'123'}
     result = 'https://my.salesking.eu/api'
 
-    SK::SDK::Base.set_connection(opts)
-    SK::SDK::Base.site.to_s.should == result
+    SK::SDK::Base.send(:site_api_url, 'https://my.salesking.eu').should == result
+    SK::SDK::Base.send(:site_api_url, 'https://my.salesking.eu/api').should == result
 
-    opts[:site] = 'https://my.salesking.eu/'
-    SK::SDK::Base.set_connection(opts)
-    SK::SDK::Base.site.to_s.should == result
-
-    opts[:site] ='https://my.salesking.eu/api'
-    SK::SDK::Base.set_connection(opts)
-    SK::SDK::Base.site.to_s.should == result
-
-    opts[:site] = 'https://my.salesking.eu/api/'
-    SK::SDK::Base.set_connection(opts)
-    SK::SDK::Base.site.to_s.should == result
   end
 
   it "should have properties as attributes" do
