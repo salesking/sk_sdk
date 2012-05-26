@@ -1,7 +1,5 @@
 = SalesKing SDK
 
-{<img src="https://secure.travis-ci.org/salesking/sk_sdk.png?branch=master" alt="Build Status" />}[http://travis-ci.org/salesking/sk_sdk]
-
 Automate your workflow's by integrating and connecting your business with SalesKing.
 This Ruby Software-Development-Kit provides solid and handy tools for building
 SalesKing App's(using oAuth2) and API clients.
