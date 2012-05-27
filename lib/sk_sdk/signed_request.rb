@@ -1,5 +1,5 @@
 require 'base64'
-require "active_support/json"
+require 'active_support/json'
 require 'openssl'
 require 'sk_sdk'
 
@@ -24,8 +24,7 @@ module SK::SDK
 
     # Decode a base64URL encoded string: replace - with + and _ with /
     # Also add padding so ruby's Base64 can decode it
-    # === returns
-    # <String>:: the plain string decoded
+    # @return [String] the plain string decoded
     def base64_url_decode(str)
       encoded_str = str.tr('-_', '+/')
       encoded_str += '=' while !(encoded_str.size % 4).zero?
@@ -42,11 +41,9 @@ module SK::SDK
     # Base64 url encode a string and sign it using the given secret. The hmac
     # signature and the encoded string are joined by . and returned
     #
-    # === Parameter
-    # str<String>:: the string to encode
-    # secret<String>:: the string used to create the signature
-    # === Returns
-    # <String>:: hmac-sign.encoded-string
+    # @param [String] str the string to encode
+    # @param [String] secret used to create the signature
+    # @return [String] hmac-sign.encoded-string
     def self.signed_param(str, secret)
       # base65 url encode the json, remove trailing-padding =
       enc_str = base64_url_encode(str)
@@ -61,10 +58,8 @@ module SK::SDK
     # + is replaced by -
     # / is replaced by _
     #
-    # === Parameter
-    # str<String>:: the string to encode
-    # === Returns
-    # <String>:: base64url-encoded
+    # @param [String] str the string to encode
+    # @return [String] base64url-encoded
     def self.base64_url_encode(str)
       [str].pack('m').tr('+/','-_').gsub("\n",'').gsub(/=+$/, '' )
     end

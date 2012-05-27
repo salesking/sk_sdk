@@ -7,11 +7,13 @@ module OmniAuth
       # SalesKing requires a subdomain up front
       # It needs to be provided in a form and retrieved from the request
       # The one on init is not used as it is grabbed from the session later
-      # === Params
-      # app<Rack Application]>:: app standard middleware application parameter
-      # client_id<String>:: the application id as registered on SalesKing
-      # client_secret<String>::  the application secret as registered on SalesKing
-      # scope<String>:: space separated extended permissions such as `api/invoices` or `api/clients:read,delete`
+      #
+      # @param [Rack Application] app  rack middleware application
+      # @param [String] client_id the application id as registered on SalesKing
+      # @param [String] client_secret the application secret as registered on SalesKing
+      # @param [String] sk_url
+      # @param [String] scope space separated extended permissions such as
+      #   `api/invoices` or `api/clients:read,delete api/orders`
       def initialize(app, client_id, client_secret, sk_url, scope)
         @base_url = sk_url
         @scope = scope
@@ -19,19 +21,20 @@ module OmniAuth
         super(app, :salesking, client_id, client_secret, client_options)
       end
 
-      #inject salesking url and scope
+      # inject salesking url and scope into OmniAuth
       def request_phase
         options[:scope] = @scope
         set_sk_url
         super
       end
 
-      #Monkey-patching to inject subdomain again
+      # Monkey-patching to inject subdomain again into OmniAuth
       def callback_phase
         set_sk_url
         super
       end
 
+      # @return [Hash] user currently logged in
       def user_data
         @data ||= begin
           ret = MultiJson.decode(@access_token.get('api/users/current'))
@@ -62,8 +65,7 @@ module OmniAuth
 
       # Each company has it's own subdomain so the url must be dynamic.
       # This is achieved by replacing the * with the subdomain from the session
-      # === Returns
-      # <String>:: url
+      # @return [String] url with subdomain of sk user
       def set_sk_url
         client_options[:site] = @base_url.gsub('*', session[:subdomain]).gsub(/\/\z/, '' )
       end

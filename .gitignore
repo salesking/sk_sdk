@@ -1,5 +1,7 @@
 coverage/*
 rdoc/*
+doc/*
+.yardoc/*
 pkg/*
 ci/Gemfile.lock
 ci/Gemfile_ar2

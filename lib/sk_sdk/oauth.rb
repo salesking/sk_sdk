@@ -11,17 +11,16 @@ module SK::SDK
     attr_accessor :sub_domain
 
     # Setup a new oAuth connection requires you to set some default:
-    # === Params
-    # opts<Hash{String=>String}>:: options for your app
-    # 
-    # == Options(opts)
-    # id<String>:: oAuth app id from SalesKing app registration
-    # secret<String>:: oAuth app secret from SalesKing app registration
-    # scope<String>:: permission your app requests
-    # redirect_url<String>:: redirect url inside your app for auth dialog
-    # sk_url<String>:: SalesKing base url, * is replaced with users subdomain, 
+    #
+    # @param[Hash{String=>String}] opts containing id, secrete, scope, url of
+    #   your app
+    # @option [String] id oAuth app id from SalesKing app registration
+    # @option [String] secret oAuth app secret from SalesKing app registration
+    # @option [String] scope permission your app requests
+    # @option [String] redirect_url inside your app for auth dialog
+    # @option [String] sk_url SalesKing base url, * is replaced with users subdomain,
     #   no trailing slash, optional defaults to https://*.salesking.eu
-    # sub_domain<String>:: optinal, will probably be set later after a users
+    # @option [String] sub_domain optional, will probably be set later after a users
     # provided his subdomain
     def initialize(opts)
       @id           = opts['id']
@@ -33,10 +32,7 @@ module SK::SDK
       @sub_domain   = opts['sub_domain']
     end
 
-    # URL showing the auth dialog to the user
-    #
-    # === Returns
-    # <String>:: URL with parameter
+    # @return [String] URL with parameter to show the auth dialog to the user
     def auth_dialog
       params = { :client_id   => @id,
                  :redirect_uri=> @redirect_url,
@@ -44,20 +40,17 @@ module SK::SDK
       "#{sk_url}/oauth/authorize?#{to_url_params(params)}"
     end
 
-    # The app's canvas url inside SalesKing
-    # === Returns
-    # <String>:: URL
+    # @return [String] app's canvas url inside SalesKing
     def sk_canvas_url
       "#{sk_url}/app/#{@canvas_slug}"
     end
 
     # URL to get the access_token, used in the second step after you have
     # requested the authorization and gotten a code
-    # The token url is located at /oauth/token 
-    # === Parameter
-    # code<String>:: code received after auth
-    # === Returns
-    # <String>:: Url with parameter
+    # The token url is located at /oauth/token
+    #
+    # @param [String] code received after auth
+    # @return [String] Url with parameter
     def token_url(code)
       params = { :client_id     => @id,
                  :client_secret => @secret,
@@ -68,23 +61,25 @@ module SK::SDK
 
     # Makes a GET request to the access_token endpoint in SK and receives the
     # access token
+    # @param [String] code request token
+    # @return [Hash{String=>String}] access token
     def get_token(code)
-      c = Curl::Easy.perform( token_url( code ) )
-      # grab token from response body, containing json string
+      c = Curl::Easy.new( token_url( code ) )
+      c.ssl_verify_host = false
+      c.perform
+      # grab token from response body
       ActiveSupport::JSON.decode(c.body_str)
     end
 
-    # The API url ist the salesking url of the current company + /api
-    # === Returns
-    # <String>:: base api url my-sub.salesking.eu/api
+    # @return [String] base api url my-sub.salesking.eu/api
     def sk_api_url
       "#{sk_url}/api"
     end
 
     # Each company has it's own subdomain so the url must be dynamic.
     # This is achieved by replacing the * with the subdomain in the instance
-    # === Returns
-    # <String>:: url
+    #
+    # @return [String] url
     def sk_url
       @sk_url.gsub('*', sub_domain).gsub(/\/\z/, '' )
     end
