@@ -4,7 +4,7 @@ require 'sk_sdk/version'
 
 Gem::Specification.new do |s|
   s.name     = 'sk_sdk'
-  s.date     = %q{2012-05-24}
+  s.date     = %q{2012-05-27}
   s.version  = SK::SDK::VERSION
   s.authors  = ['Georg Leciejewski', 'Mike Poltyn']
   s.email    = ['gl@salesking.eu']
