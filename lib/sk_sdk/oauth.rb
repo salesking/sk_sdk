@@ -65,8 +65,11 @@ module SK::SDK
     # @return [Hash{String=>String}] access token
     def get_token(code)
       c = Curl::Easy.new( token_url( code ) )
-      c.ssl_verify_host = false
-      c.perform
+      if sk_url[/dev\.salesking.eu/] # as long as we are using a self signed cert
+        c.ssl_verify_host = false
+        c.ssl_verify_peer = false
+      end
+      c.http_get
       # grab token from response body
       ActiveSupport::JSON.decode(c.body_str)
     end
