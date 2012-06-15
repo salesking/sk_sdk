@@ -1,5 +1,5 @@
 require 'cgi'
-require 'curb'
+require 'httpi'
 require 'sk_sdk'
 
 module SK::SDK
@@ -64,14 +64,13 @@ module SK::SDK
     # @param [String] code request token
     # @return [Hash{String=>String}] access token
     def get_token(code)
-      c = Curl::Easy.new( token_url( code ) )
+      r = HTTPI::Request.new( token_url( code ) )
       if sk_url[/dev\.salesking.eu/] # as long as we are using a self signed cert
-        c.ssl_verify_host = false
-        c.ssl_verify_peer = false
+        r.auth.ssl.verify_mode = :none
       end
-      c.http_get
+      r = HTTPI.get r
       # grab token from response body
-      ActiveSupport::JSON.decode(c.body_str)
+      ActiveSupport::JSON.decode(r.body)
     end
 
     # @return [String] base api url my-sub.salesking.eu/api
