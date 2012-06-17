@@ -1,4 +1,3 @@
-#require 'spec_helper'
 require 'resources_spec_helper'
 
 unless sk_available?
@@ -67,7 +66,7 @@ describe Invoice, "a new invoice" do
     doc.save.should == true
     doc2 = Invoice.new(:number=>'001')
     doc2.save.should == false
-    doc2.errors.count.should == 2
+    doc2.errors.count.should == 1
     if doc2.errors.respond_to? :on
       doc2.errors.on(:number).should == "has already been taken"
     else
@@ -114,7 +113,7 @@ describe Invoice, "Edit an invoice" do
     doc1.save.should == true
     @doc.number = '002'
     @doc.save.should == false
-    @doc.errors.count.should == 2
+    @doc.errors.count.should == 1
     if @doc.errors.respond_to? :on # TODO kick with AR 2.3
       @doc.errors.on(:number).should == "has already been taken"
     else

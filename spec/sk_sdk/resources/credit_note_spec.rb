@@ -18,15 +18,7 @@ else
     end
 
     after :all do
-      #delete test doc
-      @doc.destroy
-      @client.destroy
-      lambda {
-        doc = CreditNote.find(@doc.id)
-      }.should raise_error(ActiveResource::ResourceNotFound)
-      lambda {
-        client = Client.find(@client.id)
-      }.should raise_error(ActiveResource::ResourceNotFound)
+      delete_test_data @doc, @client
     end
 
     it "should create a doc and use default before after text" do
@@ -41,7 +33,7 @@ else
       doc.save.should == true
       doc2 = CreditNote.new(:number=>'001')
       doc2.save.should == false
-      doc2.errors.count.should == 2
+      doc2.errors.count.should == 1
       if doc2.errors.respond_to? :on # TODO kick with AR 2.3
         doc2.errors.on(:number).should == "has already been taken"
       else
@@ -71,7 +63,7 @@ else
       doc1.save.should == true
       @doc.number = '002'
       @doc.save.should == false
-      @doc.errors.count.should == 2
+      @doc.errors.count.should == 1
       if @doc.errors.respond_to? :on # TODO kick with AR 2.3
         @doc.errors.on(:number).should == "has already been taken"
       else
@@ -94,11 +86,7 @@ else
     end
 
     after :all do
-      @client.destroy #also destroys all docs
-  #    @doc.destroy
-      lambda {
-        doc = CreditNote.find(@doc.id)
-      }.should raise_error(ActiveResource::ResourceNotFound)
+      delete_test_data @doc, @client
     end
 
     it "should create a line item" do
