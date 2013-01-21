@@ -37,7 +37,7 @@ describe Payment do
 
     it "should create with method date external_ref" do
       p = Payment.new :amount => 11,
-                      :method=> "bank_transfer",
+                      :payment_method => "bank_transfer",
                       :date=> Date.today,
                       :external_ref => 'from sdk-test'
 
@@ -48,7 +48,7 @@ describe Payment do
       payment.external_ref.should == 'from sdk-test'
       payment.date.should == Date.today.strftime("%Y-%m-%d")
       # method is defined on Object .. TODO rename it in SK
-      payment.attributes['method'].should == 'bank_transfer'
+      payment.attributes['payment_method'].should == 'bank_transfer'
     end
 
     it "should close related invoice" do
