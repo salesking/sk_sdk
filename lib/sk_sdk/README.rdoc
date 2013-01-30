@@ -112,7 +112,7 @@ This is an example of a GET-request issued by your browser.
 Or use CURL, if you prefer the command line:
 
   curl -u your@login-mail.com:password \
-  https://demo.salesking.eu/clients
+  https://demo.salesking.eu/api/clients
 
 Request Method overview:
   GET => read
@@ -130,7 +130,7 @@ A list of resources:
   GET xy.salesking.eu/api/invoices
 
 A single resource
-  GET xy.salesking.eu/invoices/:id
+  GET xy.salesking.eu/api/invoices/:id
 
 Returned JSON data for a listings, abbreviated:
     {
@@ -175,7 +175,7 @@ Available filters are defined in each json-schema's instances link ({see invoice
 To create a resource make a POST request containing the json for a single resource.
 
   Header: content-type application/json
-  POST https://my-sub.salesking.eu/invoices.json
+  POST https://my-sub.salesking.eu/api/invoices.json
 
   {"invoice": {
     "title": "Your service subscription 2011",
@@ -207,7 +207,7 @@ To create a resource make a POST request containing the json for a single resour
 
 A DELETE request to a resource url deletes and returns the deleted object:
 
-    DELETE https://demo.salesking.eu/clients/:id
+    DELETE https://demo.salesking.eu/api/clients/:id
 
 == Hints on ActiveResource
 
