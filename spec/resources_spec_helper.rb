@@ -1,6 +1,6 @@
 require 'spec_helper'
 # create all classes and set their connection
-%w[Client Address CreditNote Invoice Product LineItem User Payment Email].each do |model|
+%w[Client Contact Address CreditNote Invoice Product LineItem User Payment Email].each do |model|
   eval "class #{model} < SK::SDK::Base;end" unless Object.const_defined?(model)
 end
 SK::SDK::Base.set_connection basic_auth_settings
@@ -27,7 +27,6 @@ def delete_test_data(doc, client)
     doc.status ='draft'
     doc.save
   end
-  #doc.destroy
   client.destroy
 end
 
