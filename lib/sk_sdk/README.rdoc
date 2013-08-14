@@ -70,22 +70,22 @@ Create a single class
 
   require 'sk_sdk/base'
 
-  class Client < SK::SDK::Base;end
+  class Contact < SK::SDK::Base;end
 
   # connection using BasicAuth
-  Client.set_connection( {:site => 'https://my_sub.salesking.eu/api',
+  Contact.set_connection( {:site => 'https://my_sub.salesking.eu/api',
                          :user => 'my-users@login-email.com',
                          :password => 'password' })
 
-  client = Client.new(:last_name => 'Ding', :organisation => "Carpenters Inc.")
-  client.first_name = "Bill"
-  client.save
+  contact = Contact.new(:last_name => 'Ding', :organisation => "Carpenters Inc.", :type=>'Client')
+  contact.first_name = "Bill"
+  contact.save
 
 Create multiple classes at once
 
   require 'sk_sdk/base'
   module; King; end
-  %w[Client Invoice Product LineItem].each do |model|
+  %w[Contact Invoice Product LineItem].each do |model|
     eval "class King::#{model} < SK::SDK::Base;end"
   end
 
@@ -105,14 +105,14 @@ Create multiple classes at once
 
 == Quick start - Basic's
 
-To give it quick shot, point your browser to my-account.salesking.eu/api/clients.json
+To give it quick shot, point your browser to my-account.salesking.eu/api/contacts.json
 (while beeing logged in) and you will see the JSON in the response.
 This is an example of a GET-request issued by your browser.
 
 Or use CURL, if you prefer the command line:
 
   curl -u your@login-mail.com:password \
-  https://demo.salesking.eu/api/clients
+  https://demo.salesking.eu/api/contacts
 
 Request Method overview:
   GET => read
@@ -134,8 +134,8 @@ A single resource
 
 Returned JSON data for a listings, abbreviated:
     {
-    "clients": [                    # array of resources => clients
-      { "client": {                 # a single resource
+    "contacts": [                    # array of resources => contacts
+      { "contact": {                 # a single resource
         "number": "0800013", ..
         "links":{}                  #links for the resource
       }, ...
@@ -147,9 +147,9 @@ Returned JSON data for a listings, abbreviated:
       "per_page": 30
     },
     "links": {                      # links for the collection
-      "prev": "/api/clients?page=0",
-      "next": "/api/clients?page=2",
-      "self": "/api/clients?page=1"
+      "prev": "/api/contacts?page=0",
+      "next": "/api/contacts?page=2",
+      "self": "/api/contacts?page=1"
       },
     }
 
@@ -167,8 +167,8 @@ Available filters are defined in each json-schema's instances link ({see invoice
   # q-wildcard search in several fields
   GET xy.salesking.eu/api/invoices?filter[q]=0815&per_page=40
 
-  # find all documents for one or more client
-  GET xy.salesking.eu/api/documents?filter[client_ids]=:id,:id
+  # find all documents for one or more contacts
+  GET xy.salesking.eu/api/documents?filter[contact_ids]=:id,:id
 
 === POST / Create
 
@@ -194,12 +194,13 @@ To create a resource make a POST request containing the json for a single resour
 === PUT / Update
 
   Header: content-type application/json
-  PUT /api/clients/:id
+  PUT /api/contacts/:id
   {
-    'client':
+    'contact':
     {
       'gender':'male',
-      'first_name': "Andrew"
+      'first_name': "Andrew",
+      'type': 'Client'
     }
   }
 
@@ -207,7 +208,7 @@ To create a resource make a POST request containing the json for a single resour
 
 A DELETE request to a resource url deletes and returns the deleted object:
 
-    DELETE https://demo.salesking.eu/api/clients/:id
+    DELETE https://demo.salesking.eu/api/contacts/:id
 
 == Hints on ActiveResource
 
