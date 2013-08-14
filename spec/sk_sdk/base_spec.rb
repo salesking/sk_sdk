@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'resources_spec_helper'
 
-class Client < SK::SDK::Base;end
+class Contact < SK::SDK::Base;end
 # create objects in King namespace
 module KingTester; end
 %w[Invoice Product].each do |model|
@@ -11,7 +11,7 @@ end
 describe SK::SDK::Base, "make new class" do
 
   it "should create class" do
-    c = Client.new
+    c = Contact.new
     c.first_name = 'herbert' # implicit setter
     c.first_name.should == 'herbert' # implicit getter
   end
@@ -25,17 +25,17 @@ describe SK::SDK::Base, "make new class" do
   end
 
   it "should have properties as attributes" do
-    c = Client.new :some_field => ''
+    c = Contact.new :some_field => ''
     c.attributes.should == {"some_field"=>""}
   end
 
   it "should create save method" do
-    c = Client.new
+    c = Contact.new
     c.respond_to?(:save).should be_true
   end
 
   it "should have new_record?" do
-    c = Client.new
+    c = Contact.new
     c.new_record?.should be_true
     i = KingTester::Invoice.new
     i.new_record?.should be_true
@@ -46,9 +46,9 @@ describe SK::SDK::Base, "make new class" do
   it "should allow multiple parameters in initializer" do
     expect {
       if ActiveResource::VERSION::MAJOR == 3 && ActiveResource::VERSION::MINOR > 0
-        Client.new({ :first_name => 'herbert' }, true)
+        Contact.new({ :first_name => 'herbert' }, true)
       else
-        Client.new({ :first_name => 'herbert' })
+        Contact.new({ :first_name => 'herbert' })
       end
     }.should_not raise_error(ArgumentError)
   end

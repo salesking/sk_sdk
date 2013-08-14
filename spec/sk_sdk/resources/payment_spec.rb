@@ -7,11 +7,11 @@ else
 describe Payment do
 
   before :all do
-    @client = Client.new(:organisation=>'Payment API-Tester')
-    @client.save.should be_true
+    @contact = Contact.new(:type=>'Client', :organisation=>'Payment API-Tester')
+    @contact.save.should be_true
     @doc = Invoice.new
     @doc.title = 'A Document from the API for payment testing'
-    @doc.client_id = @client.id
+    @doc.contact_id = @contact.id
     @doc.save.should be_true
   end
 
@@ -20,7 +20,7 @@ describe Payment do
     payments.each { |p| p.destroy }
     @doc.status = 'draft'
     @doc.save
-    @client.destroy
+    @contact.destroy
   end
 
   describe "POST request for invoice" do

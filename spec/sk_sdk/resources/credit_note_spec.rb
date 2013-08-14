@@ -8,17 +8,16 @@ else
 
     before :all do
       #setup test doc to work with
-      # create client
-      @client = Client.new(:organisation=>'Credit Note API-Tester')
-      @client.save.should be_true
+      @contact = Contact.new(:type=>'Supplier', :organisation=>'Credit Note API-Tester')
+      @contact.save.should be_true
       @doc = CreditNote.new()
       @doc.title = 'A Document from the API'
-      @doc.client_id = @client.id
+      @doc.contact_id = @contact.id
       @doc.save.should be_true
     end
 
     after :all do
-      delete_test_data @doc, @client
+      delete_test_data @doc, @contact
     end
 
     it "should create a doc and use default before after text" do
@@ -76,17 +75,17 @@ else
   describe CreditNote, "with line items" do
 
     before :all do
-      @client = Client.new(:organisation=>'Credit Note API-Tester')
-      @client.save.should be_true
+      @contact =Contact.new(:type=>'Supplier', :organisation=>'Credit Note API-Tester')
+      @contact.save.should be_true
       #setup test doc to work with
-      @doc = CreditNote.new :client_id => @client.id,
+      @doc = CreditNote.new :contact_id => @contact.id,
                             :line_items =>[{ :position=>1, :description => 'Pork Chops',
                                               :quantity => 12, :price_single =>'10.00'}]
       @doc.save.should be_true
     end
 
     after :all do
-      delete_test_data @doc, @client
+      delete_test_data @doc, @contact
     end
 
     it "should create a line item" do
