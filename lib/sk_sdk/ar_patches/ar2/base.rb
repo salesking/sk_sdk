@@ -20,10 +20,16 @@ module ActiveResource
       end
     end
 
-    # override ARes method to parse only the client part
+    # override ARes method to parse only the object part
     def load_attributes_from_response(response)
       if response['Content-Length'] != "0" && response.body.strip.size > 0
         load( self.class.format.decode(response.body)[self.class.element_name] )
+        if self.respond_to?(:items)
+          # move double nested items up
+          new_items = []
+          self.items.each { |item| new_items << item.attributes.first[1] }
+          self.items = new_items
+        end
       end
     end
 

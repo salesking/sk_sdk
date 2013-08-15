@@ -91,7 +91,7 @@ else
     it "should create a line item" do
       @doc.line_items.length.should == 1
       @doc.line_items.first.description.should == 'Pork Chops'
-      @doc.price_total.should == 120.0
+      @doc.gross_total.should == 120.0
     end
 
     it "should edit line item" do
@@ -107,7 +107,7 @@ else
       @doc.line_items << item
       @doc.save
       @doc.line_items.length.should == 2
-      @doc.price_total.should == 220.0
+      @doc.gross_total.should == 220.0
   #    @doc.line_items[0].zip = '40001'
   #    @doc.line_items.[1].zip.should == '40001'
     end

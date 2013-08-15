@@ -1,6 +1,6 @@
 module ActiveResource
   # Overridden methods to suit SalesKing's nested json format
-  # only valid for AR 3.1
+  # only valid for AR 3.1+
   # In the future might add a custom format class, see base.format
   class Base
 
@@ -8,6 +8,12 @@ module ActiveResource
     def load_attributes_from_response(response)
       if (response['Transfer-Encoding'] == 'chunked' || (!response['Content-Length'].blank? && response['Content-Length'] != "0")) && !response.body.nil? && response.body.strip.size > 0
         load( self.class.format.decode(response.body)[self.class.element_name] )
+        #fix double nested items .. active resource SUCKS soooo bad
+        if self.respond_to?(:items)
+          new_items = []
+          self.items.each { |item| new_items << item.attributes.first[1] }
+          self.items = new_items
+        end
         @persisted = true
       end
     end

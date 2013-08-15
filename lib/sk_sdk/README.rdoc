@@ -64,7 +64,7 @@ remember we only support HTTPS:
   =>
   https://my_company.salesking.eu/api
 
-For convenience we check if your url ends in /api and add if you forgot it!
+For convenience we check if your url ends in /api and add it if you forgot it!
 
 Create a single class
 
@@ -85,7 +85,7 @@ Create multiple classes at once
 
   require 'sk_sdk/base'
   module; King; end
-  %w[Contact Invoice Product LineItem].each do |model|
+  %w[Contact Invoice Product LineItem SubTotalItem].each do |model|
     eval "class King::#{model} < SK::SDK::Base;end"
   end
 
@@ -212,6 +212,7 @@ A DELETE request to a resource url deletes and returns the deleted object:
 
 == Hints on ActiveResource
 
+* It sucks!
 * Most of the magic is coming from ActiveResource so you should read {its README and code}[https://github.com/rails/rails/tree/master/activeresource]
 * This client does NOT rely on parsing the JSON Schema, since ActiveResource(AR) creates the Getter/Setter methods.
 * We added some patches for AR to fix JSON parsing issues, due to our nesting.
@@ -227,7 +228,7 @@ command-line http client) for testing. And of course any http library supporting
 http-basic-auth.
 
 * {Getting started tutorial}[http://dev.blog.salesking.eu/api/]
-* {SalesKing API Schema}[https://github.com/salesking/sk_api_schema]
+* {SalesKing API Browser}[http://sk-api-browser.herokuapp.com/] - {SalesKing API Schema}[https://github.com/salesking/sk_api_schema]
 * {Chrome cRest extension}[https://chrome.google.com/extensions/detail/baedhhmoaooldchehjhlpppaieoglhml]
 * {Poster FF-Plugin - make HTTP request}[https://addons.mozilla.org/en-US/firefox/addon/2691/]  (you must be logged into SalesKing)
 * {JSONView  FF-Plugin - view json in firefox}[https://addons.mozilla.org/de/firefox/addon/10869/]
