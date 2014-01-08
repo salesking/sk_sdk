@@ -177,7 +177,21 @@ describe Invoice do
     end
 
     after :all do
-      delete_test_data(@doc, @contact)
+      #delete_test_data(@doc, @contact)
+    end
+
+    it 'should create items with price of 0' do
+      # :quantity => 1,  is default
+      @doc.items = [
+        { :position=>1, :name => 'Pork Chops', :price_single =>'0.00', :type=>'LineItem' },
+        { :position=>2, :name => 'Pork Chops', :price_single =>'0,0', :type=>'LineItem' },
+        { :position=>3, :name => 'Pork Chops',  :price_single =>'0', :type=>'LineItem' },
+        { :position=>4, :name => 'Pork Chops',  :price_single =>0, :type=>'LineItem' },
+        { :position=>5, :name => 'Pork Chops',  :price_single =>0.0, :type=>'LineItem' },
+      ]
+      @doc.save.should be_true
+      @doc.items.length.should == 5
+      @doc.gross_total.should == 0.0
     end
 
     it 'should create items from array' do
