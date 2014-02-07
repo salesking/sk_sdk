@@ -30,7 +30,7 @@ describe Payment do
       # damn i hate active_resource
       @doc.post(:payments, {}, p.encode)
       payments_json = @doc.get(:payments)
-      payments = Payment.instantiate_collection(payments_json)
+      payments = Payment.send(:instantiate_collection, payments_json)
 
       payments.first.amount.should == 10
     end
@@ -43,7 +43,7 @@ describe Payment do
 
       # damn i hate active_resource
       @doc.post(:payments, {}, p.encode)
-      payments = Payment.instantiate_collection(@doc.get(:payments))
+      payments = Payment.send(:instantiate_collection, @doc.get(:payments))
       payment = payments.detect{|p| p.amount == 11 }
       payment.external_ref.should == 'from sdk-test'
       payment.date.should == Date.today.strftime("%Y-%m-%d")
@@ -69,7 +69,7 @@ describe Payment do
       p = Payment.new :amount => 12.34, :related_object_id=>@doc.id
       p.save.should be_true
 
-      payments = Payment.instantiate_collection(@doc.get(:payments))
+      payments = Payment.send( :instantiate_collection, @doc.get(:payments))
       payments.map(&:amount).should include 12.34
     end
   end
