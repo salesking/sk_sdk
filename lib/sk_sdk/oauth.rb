@@ -34,7 +34,7 @@ module SK::SDK
 
     # @return [String] URL with parameter to show the auth dialog to the user
     def auth_dialog
-      scope_string = @scope === Array ? @scope.join(' ') : @scope
+      scope_string = Array === @scope ? @scope.join(' ') : @scope
       params = { :client_id   => @id,
                  :redirect_uri=> @redirect_url,
                  :scope       => scope_string }
