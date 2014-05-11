@@ -16,7 +16,7 @@ module SK::SDK
     #   your app
     # @option [String] id oAuth app id from SalesKing app registration
     # @option [String] secret oAuth app secret from SalesKing app registration
-    # @option [String] scope permission your app requests
+    # @option [String|Array[String]] permission scopes for your app requests
     # @option [String] redirect_url inside your app for auth dialog
     # @option [String] sk_url SalesKing base url, * is replaced with users subdomain,
     #   no trailing slash, optional defaults to https://*.salesking.eu
@@ -34,9 +34,10 @@ module SK::SDK
 
     # @return [String] URL with parameter to show the auth dialog to the user
     def auth_dialog
+      scope_string = @scope === Array ? @scope.join(' ') : @scope
       params = { :client_id   => @id,
                  :redirect_uri=> @redirect_url,
-                 :scope       => @scope }
+                 :scope       => scope_string }
       "#{sk_url}/oauth/authorize?#{to_url_params(params)}"
     end
 
@@ -88,9 +89,7 @@ module SK::SDK
     end
 
     def to_url_params(params_hash)
-      out = []
-      params_hash.each { |k,v| out << "#{CGI::escape k.to_s}=#{CGI::escape v.to_s}" }
-      out.join('&')
+      params_hash.map { |k,v| "#{CGI::escape k.to_s}=#{CGI::escape v.to_s}" }.join('&')
     end
 
   end
