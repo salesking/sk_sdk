@@ -3,15 +3,16 @@ require 'sk_sdk'
 require 'active_resource'
 require 'active_resource/version'
 # patches are for specific AR version
-if ActiveResource::VERSION::MAJOR == 3
-  require 'sk_sdk/ar_patches/ar3/base'
-  require 'sk_sdk/ar_patches/ar3/validations'
-elsif ActiveResource::VERSION::MAJOR > 3
-  require 'sk_sdk/ar_patches/ar4/validations'
-  require 'sk_sdk/ar_patches/ar4/base'
-elsif ActiveResource::VERSION::MAJOR < 3
+case ActiveResource::VERSION::MAJOR
+when 2
   require 'sk_sdk/ar_patches/ar2/validations'
   require 'sk_sdk/ar_patches/ar2/base'
+when 3
+  require 'sk_sdk/ar_patches/ar3/base'
+  require 'sk_sdk/ar_patches/ar3/validations'
+when 4
+  require 'sk_sdk/ar_patches/ar4/validations'
+  require 'sk_sdk/ar_patches/ar4/base'
 end
 
 class SK::SDK::Base < ActiveResource::Base
@@ -69,5 +70,29 @@ class SK::SDK::Base < ActiveResource::Base
   def self.site_api_url(site)
     site = site.gsub(/\/$/, '')
     site =~ /\/api$/ ? site : "#{site}/api"
+  end
+
+  # Unfortunately only using AR v4+ we can create additional accessors
+  # to get info on collection info and links
+  if ActiveResource::VERSION::MAJOR == 4
+    class SkCollection < ActiveResource::Collection
+      attr_accessor :current_page, :per_page, :total_entries, :total_pages
+
+      attr_accessor :next_url, :self_url, :prev_url
+
+      def initialize(parsed = {}, element_name = nil)
+        @elements = element_name.present? ? parsed[element_name] : parsed
+
+        %w(current_page per_page total_entries total_pages).each do |collection_info|
+          instance_variable_set(:"@#{collection_info}", parsed['collection'][collection_info])
+        end
+
+        %w(next self prev).each do |link_info|
+          instance_variable_set(:"@#{link_info}_url", parsed['links'][link_info])
+        end
+        @next_page = parsed['next_page']
+      end
+    end
+    self.collection_parser = SkCollection
   end
 end

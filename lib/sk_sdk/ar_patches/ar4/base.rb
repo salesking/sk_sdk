@@ -24,11 +24,11 @@ private
     #   'clients'=> [data],             << what we need
     # }
     def self.instantiate_collection(collection, original_params = {}, prefix_options = {})
-      collection = collection[ self.element_name.pluralize ] if collection.is_a?(Hash)
-      collection_parser.new(collection).tap do |parser|
+      elements_name = self.element_name.pluralize if collection.is_a?(Hash)
+      collection_parser.new(collection, elements_name).tap do |parser|
         parser.resource_class  = self
         parser.original_params = original_params
       end.collect! { |record| instantiate_record(record, prefix_options) }
-   end
+    end
   end
 end
