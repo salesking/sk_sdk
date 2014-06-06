@@ -1,6 +1,6 @@
 module ActiveResource
   # Overridden methods to suit SalesKing's nested json format
-  # only valid for AR 3.1+
+  # only valid for AR 4+
   # In the future might add a custom format class, see base.format
   class Base
 
@@ -17,15 +17,18 @@ module ActiveResource
         @persisted = true
       end
     end
-
+private
     # Overridden to grab the data(= clients-collection) from json:
     # { 'collection'=> will_paginate infos,
     #   'links' => prev/next links
     #   'clients'=> [data],             << what we need
     # }
-    def self.instantiate_collection(collection, prefix_options = {})
-      collection = collection[ self.element_name.pluralize ] if collection.is_a?(Hash)
-      collection.collect! { |record| instantiate_record(record, prefix_options) }
+    def self.instantiate_collection(collection, original_params = {}, prefix_options = {})
+      elements_name = self.element_name.pluralize if collection.is_a?(Hash)
+      collection_parser.new(collection, elements_name).tap do |parser|
+        parser.resource_class  = self
+        parser.original_params = original_params
+      end.collect! { |record| instantiate_record(record, prefix_options) }
     end
   end
 end

@@ -13,6 +13,7 @@ Gem::Specification.new do |s|
   s.description = %q{Connect your business with SalesKing. This gem gives ruby developers a jump-start for building SalesKing Business Apps. It provides classes to handle oAuth, make RESTfull API requests and parses JSON Schema }
   s.extra_rdoc_files = ['README.rdoc']
   s.rubygems_version = %q{1.6.2}
+  s.license = 'MIT'
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")

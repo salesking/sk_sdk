@@ -8,25 +8,16 @@ else
 
     before :all do
       #setup test doc to work with
-      # create client
-      @client = Client.new(:organisation=>'Credit Note API-Tester')
-      @client.save.should be_true
+      @contact = Contact.new(:type=>'Supplier', :organisation=>'Credit Note API-Tester')
+      @contact.save.should be_true
       @doc = CreditNote.new()
       @doc.title = 'A Document from the API'
-      @doc.client_id = @client.id
+      @doc.contact_id = @contact.id
       @doc.save.should be_true
     end
 
     after :all do
-      #delete test doc
-      @doc.destroy
-      @client.destroy
-      lambda {
-        doc = CreditNote.find(@doc.id)
-      }.should raise_error(ActiveResource::ResourceNotFound)
-      lambda {
-        client = Client.find(@client.id)
-      }.should raise_error(ActiveResource::ResourceNotFound)
+      delete_test_data @doc, @contact
     end
 
     it "should create a doc and use default before after text" do
@@ -41,7 +32,7 @@ else
       doc.save.should == true
       doc2 = CreditNote.new(:number=>'001')
       doc2.save.should == false
-      doc2.errors.count.should == 2
+      doc2.errors.count.should == 1
       if doc2.errors.respond_to? :on # TODO kick with AR 2.3
         doc2.errors.on(:number).should == "has already been taken"
       else
@@ -71,7 +62,7 @@ else
       doc1.save.should == true
       @doc.number = '002'
       @doc.save.should == false
-      @doc.errors.count.should == 2
+      @doc.errors.count.should == 1
       if @doc.errors.respond_to? :on # TODO kick with AR 2.3
         @doc.errors.on(:number).should == "has already been taken"
       else
@@ -84,27 +75,23 @@ else
   describe CreditNote, "with line items" do
 
     before :all do
-      @client = Client.new(:organisation=>'Credit Note API-Tester')
-      @client.save.should be_true
+      @contact =Contact.new(:type=>'Supplier', :organisation=>'Credit Note API-Tester')
+      @contact.save.should be_true
       #setup test doc to work with
-      @doc = CreditNote.new :client_id => @client.id,
+      @doc = CreditNote.new :contact_id => @contact.id,
                             :line_items =>[{ :position=>1, :description => 'Pork Chops',
                                               :quantity => 12, :price_single =>'10.00'}]
       @doc.save.should be_true
     end
 
     after :all do
-      @client.destroy #also destroys all docs
-  #    @doc.destroy
-      lambda {
-        doc = CreditNote.find(@doc.id)
-      }.should raise_error(ActiveResource::ResourceNotFound)
+      delete_test_data @doc, @contact
     end
 
     it "should create a line item" do
       @doc.line_items.length.should == 1
       @doc.line_items.first.description.should == 'Pork Chops'
-      @doc.price_total.should == 120.0
+      @doc.gross_total.should == 120.0
     end
 
     it "should edit line item" do
@@ -120,7 +107,7 @@ else
       @doc.line_items << item
       @doc.save
       @doc.line_items.length.should == 2
-      @doc.price_total.should == 220.0
+      @doc.gross_total.should == 220.0
   #    @doc.line_items[0].zip = '40001'
   #    @doc.line_items.[1].zip.should == '40001'
     end

@@ -1,0 +1,11 @@
+source :gemcutter
+gem "rake"
+gem "rdoc"
+gem "activesupport", "2.3.14"
+gem "activeresource", "2.3.14"
+gem "sk_api_schema"
+gem "curb"
+group :test do
+  gem "rspec"
+  gem "simplecov"
+end

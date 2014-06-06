@@ -1,10 +1,9 @@
-coverage/*
+coverage/
 rdoc/*
 doc/*
 .yardoc/*
 pkg/*
-ci/Gemfile.lock
-ci/Gemfile_ar2
+ci/Gemfile_ar2.lock
 ci/vendor
 ci/.bundle
 spec/settings.yml

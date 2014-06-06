@@ -1,6 +1,6 @@
 require 'spec_helper'
 # create all classes and set their connection
-%w[Client Address CreditNote Invoice Product LineItem User].each do |model|
+%w[Contact Address CreditNote Invoice Product LineItem User Payment Email].each do |model|
   eval "class #{model} < SK::SDK::Base;end" unless Object.const_defined?(model)
 end
 SK::SDK::Base.set_connection basic_auth_settings
@@ -8,7 +8,7 @@ SK::SDK::Base.set_connection basic_auth_settings
 def sk_available?
   begin
     User.get(:current)
-  rescue Errno::ECONNREFUSED #ActiveResource::ResourceNotFound => e
+  rescue
     return false
   end
 end
@@ -23,13 +23,10 @@ def kick_existing(obj, number)
 end
 
 def delete_test_data(doc, client)
-  doc.destroy
+  if doc.status !='draft'
+    doc.status ='draft'
+    doc.save
+  end
   client.destroy
-  lambda {
-    doc = Invoice.find(doc.id)
-  }.should raise_error(ActiveResource::ResourceNotFound)
-  lambda {
-    client = Client.find(client.id)
-  }.should raise_error(ActiveResource::ResourceNotFound)
 end
 
