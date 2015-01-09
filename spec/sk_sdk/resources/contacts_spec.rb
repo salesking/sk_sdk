@@ -42,7 +42,8 @@ else
 
     it "should find contacts" do
       contacts = Contact.find(:all)
-      contacts.should_not be_empty
+      ActiveResource::Collection
+      contacts.length.should > 0
     end
   end
 

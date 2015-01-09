@@ -170,14 +170,14 @@ describe Invoice do
   end
 
   describe 'with items of different type' do
-    before :all do
+    before :each do
       @contact = Contact.new(:type=>'Client', :organisation=>'Credit Note API-Tester')
       @contact.save.should be_true
       @doc = Invoice.new(:contact_id => @contact.id)
     end
 
-    after :all do
-      #delete_test_data(@doc, @contact)
+    after :each do
+      delete_test_data(@doc, @contact)
     end
 
     it 'should create items with price of 0' do
