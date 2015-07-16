@@ -20,9 +20,9 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ['lib']
 
-  s.add_runtime_dependency 'curb'
   s.add_runtime_dependency 'activesupport'
   s.add_runtime_dependency 'activeresource'
+  s.add_runtime_dependency 'httpi'
   s.add_runtime_dependency 'sk_api_schema'
 
   s.add_development_dependency 'rake'
