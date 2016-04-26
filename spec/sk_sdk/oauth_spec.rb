@@ -16,7 +16,7 @@ describe SK::SDK::Oauth, "in general" do
     a.sub_domain = 'alki'
     a.sk_url.should == "http://alki.horsts-lokal.local"
   end
-  
+
   it "should get salesking api url" do
     a = SK::SDK::Oauth.new(@set)
     a.sub_domain = 'alki'
@@ -38,13 +38,19 @@ describe SK::SDK::Oauth, "in general" do
     a.sk_canvas_url.should == "http://alki.horsts-lokal.local/app/canvas-page"
   end
 
-  it "should get token_url" do
+  it "has token_url" do
     a = SK::SDK::Oauth.new(@set)
     a.sub_domain = 'alki'
-    url = a.token_url('some-code')
-    url.should include @set['id']
-    url.should include @set['secret']
-    url.should include CGI::escape @set['redirect_url']
+    a.token_url.should == "http://alki.horsts-lokal.local/oauth/token"
+  end
+
+  it "has token_params" do
+    a = SK::SDK::Oauth.new(@set)
+    res = a.token_params('123')
+    res[:code].should == '123'
+    res[:client_id].should == @set['id']
+    res[:grant_type].should == 'authorization_code'
+    res[:redirect_uri].should == CGI::escape(@set['redirect_url'])
   end
 
 end

@@ -49,15 +49,16 @@ module SK::SDK
     # URL to get the access_token, used in the second step after you have
     # requested the authorization and gotten a code
     # The token url is located at /oauth/token
-    #
-    # @param [String] code received after auth
-    # @return [String] Url with parameter
-    def token_url(code)
-      params = { :client_id     => @id,
-                 :client_secret => @secret,
-                 :redirect_uri  => @redirect_url,
-                 :code          => code }
-      "#{sk_url}/oauth/token?#{to_url_params(params)}"
+    def token_url
+      "#{sk_url}/oauth/token"
+    end
+
+    # @returns[Hash] params used to get the real access-token
+    def token_params(code)
+      { :client_id     => @id,
+        :grant_type    => 'authorization_code',
+        :redirect_uri  => CGI::escape(@redirect_url),
+        :code          => code }
     end
 
     # Makes a GET request to the access_token endpoint in SK and receives the
@@ -65,12 +66,12 @@ module SK::SDK
     # @param [String] code request token
     # @return [Hash{String=>String}] access token
     def get_token(code)
-      c = Curl::Easy.new( token_url( code ) )
-      if sk_url[/dev\.salesking.eu/] # as long as we are using a self signed cert
-        c.ssl_verify_host = false
-        c.ssl_verify_peer = false
-      end
-      c.http_get
+      c = Curl::Easy.new( token_url )
+      # create HTTP BASIC Auth
+      c.username = @id
+      c.password = @secret
+      # POSTed with a content-type of 'application/x-www-form-urlencoded',
+      c.http_post( token_params(code) )
       # grab token from response body
       ActiveSupport::JSON.decode(c.body_str)
     end
