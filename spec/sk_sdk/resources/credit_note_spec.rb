@@ -9,11 +9,11 @@ else
     before :all do
       #setup test doc to work with
       @contact = Contact.new(:type=>'Supplier', :organisation=>'Credit Note API-Tester')
-      @contact.save.should be_true
+      @contact.save.should be true
       @doc = CreditNote.new()
       @doc.title = 'A Document from the API'
       @doc.contact_id = @contact.id
-      @doc.save.should be_true
+      @doc.save.should be true
     end
 
     after :all do
@@ -23,7 +23,7 @@ else
     it "should create a doc and use default before after text" do
       @doc.errors.should be_empty
       @doc.notes_before.should_not be_empty
-      @doc.new?.should be_false
+      @doc.new?.should be false
     end
 
     it "should fail create a doc without unique number" do
@@ -52,7 +52,7 @@ else
       @doc.notes_before = 'Payment made to you bank Account'
       @doc.title = 'Changed doc title'
 
-      @doc.save.should be_true
+      @doc.save.should be true
       @doc.lock_version.should > old_lock_version # because save returns the data
     end
 
@@ -76,12 +76,12 @@ else
 
     before :all do
       @contact =Contact.new(:type=>'Supplier', :organisation=>'Credit Note API-Tester')
-      @contact.save.should be_true
+      @contact.save.should be true
       #setup test doc to work with
       @doc = CreditNote.new :contact_id => @contact.id,
                             :line_items =>[{ :position=>1, :description => 'Pork Chops',
                                               :quantity => 12, :price_single =>'10.00'}]
-      @doc.save.should be_true
+      @doc.save.should be true
     end
 
     after :all do
@@ -127,7 +127,7 @@ else
     end
 
     it "should update from draft to open and set number with date" do
-      @doc.save.should be_true
+      @doc.save.should be true
       @doc.status.should == 'draft'
 
       @doc.status = 'open'

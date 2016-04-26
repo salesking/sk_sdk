@@ -8,11 +8,11 @@ describe Payment do
 
   before :all do
     @contact = Contact.new(:type=>'Client', :organisation=>'Payment API-Tester')
-    @contact.save.should be_true
+    @contact.save.should be true
     @doc = Invoice.new
     @doc.title = 'A Document from the API for payment testing'
     @doc.contact_id = @contact.id
-    @doc.save.should be_true
+    @doc.save.should be true
   end
 
   after :all do
@@ -67,7 +67,7 @@ describe Payment do
     it "should create" do
                                       # relation MUST be set
       p = Payment.new :amount => 12.34, :related_object_id=>@doc.id
-      p.save.should be_true
+      p.save.should be true
 
       payments = Payment.send( :instantiate_collection, @doc.get(:payments))
       payments.map(&:amount).should include 12.34

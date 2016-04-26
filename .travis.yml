@@ -1,7 +1,0 @@
-# Sorry no travis since you need a private sk login .. too bad
-rvm:
-  - 1.8.7
-  - 1.9.2
-gemfile:
-  - Gemfile
-  - ci/Gemfile_ar2

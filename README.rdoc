@@ -63,8 +63,11 @@ Before running the specs, add your SalesKing credentials to /spec/settings.yml
   bundle install
   rake spec
 
-  #test with ARes 2
+  #test with ActiveResource 2
   BUNDLE_GEMFILE=ci/Gemfile_ar2 bundle install
   BUNDLE_GEMFILE=ci/Gemfile_ar2 bundle exec rake spec
+  #test with ActiveResource 3
+  BUNDLE_GEMFILE=ci/Gemfile_ar3 bundle install
+  BUNDLE_GEMFILE=ci/Gemfile_ar3 bundle exec rake spec
 
-Copyright (c) 2011 Georg Leciejewski, released under the MIT license
+Copyright (c) 2011-2016 Georg Leciejewski, released under the MIT license

@@ -31,16 +31,16 @@ describe SK::SDK::Base, "make new class" do
 
   it "should create save method" do
     c = Contact.new
-    c.respond_to?(:save).should be_true
+    c.respond_to?(:save).should be true
   end
 
   it "should have new_record?" do
     c = Contact.new
-    c.new_record?.should be_true
+    c.new_record?.should be true
     i = KingTester::Invoice.new
-    i.new_record?.should be_true
+    i.new_record?.should be true
     p = KingTester::Product.new
-    p.new_record?.should be_true
+    p.new_record?.should be true
   end
 
   it "should allow multiple parameters in initializer" do
@@ -50,7 +50,7 @@ describe SK::SDK::Base, "make new class" do
       else
         Contact.new({ :first_name => 'herbert' })
       end
-    }.should_not raise_error(ArgumentError)
+    }.to_not raise_error(ArgumentError)
   end
 
 end

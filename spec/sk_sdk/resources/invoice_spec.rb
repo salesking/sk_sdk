@@ -10,11 +10,11 @@ describe Invoice do
 
     before :all do
       @contact =  Contact.new(:type=>'Client', :organisation=>'Invoice API-Tester')
-      @contact.save.should be_true
+      @contact.save.should be true
       @doc = Invoice.new()
       @doc.title = 'A Document from the API'
       @doc.contact_id = @contact.id
-      @doc.save.should be_true
+      @doc.save.should be true
     end
 
     after :all do
@@ -31,7 +31,7 @@ describe Invoice do
 
     before :all do
       @contact =  Contact.new(:type=>'Client', :organisation=>'Invoice API-Tester')
-      @contact.save.should be_true
+      @contact.save.should be true
     end
     after :all do
       @contact.destroy
@@ -43,9 +43,9 @@ describe Invoice do
       doc.notes_before = 'Your shiny new invoice [number]'
       doc.notes_after = 'Please pay me'
       doc.contact_id = @contact.id
-      doc.save.should be_true
+      doc.save.should be true
       doc.errors.should be_empty
-      doc.new?.should be_false
+      doc.new?.should be false
       doc.notes_before.should == 'Your shiny new invoice [number]'
       doc.destroy
     end
@@ -56,7 +56,7 @@ describe Invoice do
       doc.contact_id = @contact.id
       doc.save
       doc.errors.should be_empty
-      doc.new?.should be_false
+      doc.new?.should be false
       doc.notes_before.should_not be_empty
       doc.destroy
     end
@@ -85,12 +85,12 @@ describe Invoice do
       #setup test doc to work with
       # create client
       @contact =  Contact.new(:type=>'Client', :organisation=>'Invoice API-Tester')
-      @contact.save.should be_true
+      @contact.save.should be true
       @doc = Invoice.new
       @doc.title = 'A Document from the API'
       @doc.notes_before = 'Your invoice [number]'
       @doc.contact_id = @contact.id
-      @doc.save.should be_true
+      @doc.save.should be true
     end
 
     after :all do
@@ -104,7 +104,7 @@ describe Invoice do
       @doc.notes_after = 'Payment made to you bank Account'
       @doc.title = 'Changed doc title'
 
-      @doc.save.should be_true
+      @doc.save.should be true
       @doc.lock_version.should > old_lock_version # because save returns the data
       @doc.notes_before.should == 'You will recieve the amout of:'
     end
@@ -129,12 +129,12 @@ describe Invoice do
 
     before :all do
       @contact =  Contact.new(:type=>'Client', :organisation=>'Credit Note API-Tester')
-      @contact.save.should be_true
+      @contact.save.should be true
       #setup test doc to work with
       @doc = Invoice.new(:contact_id => @contact.id,
                           :line_items => [{ :position=>1, :description => 'Pork Chops',
                                              :quantity => 12, :price_single =>'10.00' }] )
-      @doc.save.should be_true
+      @doc.save.should be true
     end
 
     after :all do
@@ -157,7 +157,7 @@ describe Invoice do
     it 'should add line item' do
       item = LineItem.new( {  :position=>2, :description => 'Goat-Pie', :price_single => 10, :quantity=>10} )
       product = Product.new(:name=>'Eis am Stiel', :price => 1.50, :tax=>19, :description => 'Mmmhh lecker Eis')
-      product.save.should be_true
+      product.save.should be true
       item1 = LineItem.new( { :position=>3, :use_product => 1, :product_id=> product.id, :quantity => 10 } )
       @doc.line_items << item
       @doc.line_items << item1
@@ -172,7 +172,7 @@ describe Invoice do
   describe 'with items of different type' do
     before :each do
       @contact = Contact.new(:type=>'Client', :organisation=>'Credit Note API-Tester')
-      @contact.save.should be_true
+      @contact.save.should be true
       @doc = Invoice.new(:contact_id => @contact.id)
     end
 
@@ -189,7 +189,7 @@ describe Invoice do
         { :position=>4, :name => 'Pork Chops',  :price_single =>0, :type=>'LineItem' },
         { :position=>5, :name => 'Pork Chops',  :price_single =>0.0, :type=>'LineItem' },
       ]
-      @doc.save.should be_true
+      @doc.save.should be true
       @doc.items.length.should == 5
       @doc.gross_total.should == 0.0
     end
@@ -201,7 +201,7 @@ describe Invoice do
         { :position=>2, :name => 'Yummi Beef', :type=>'DividerItem' },
         { :position=>3, :name => 'Beef Jerky', :description=> 'Jaw Breaker',:quantity => 1, :price_single =>'10.00', :type=>'LineItem' }
       ]
-      @doc.save.should be_true
+      @doc.save.should be true
       @doc.items.length.should == 4
       @doc.gross_total.should == 130.0
     end
@@ -214,7 +214,7 @@ describe Invoice do
         { :divider_item => { :position=>2, :name => 'Yummi Beef', :type=>'DividerItem' }},
         { :line_item => { :position=>3, :name => 'Beef Jerky', :description=> 'Jaw Breaker',:quantity => 1, :price_single =>'10.00' }}
       ]
-      @doc.save.should be_true
+      @doc.save.should be true
       @doc.items.length.should == 4
       @doc.gross_total.should == 130.0
     end
@@ -223,7 +223,7 @@ describe Invoice do
   describe 'with items and line_items' do
     before :all do
       @contact = Contact.new(:type=>'Client', :organisation=>'Credit Note API-Tester')
-      @contact.save.should be_true
+      @contact.save.should be true
       @doc = Invoice.new(:contact_id => @contact.id)
     end
 
@@ -234,7 +234,7 @@ describe Invoice do
     it 'should prefer line_items over items when both are present' do
       @doc.items = [LineItem.new( :position=>12, :name => 'dropped', :quantity => 1, :price_single =>1, :type=>'LineItem' )]
       @doc.line_items = [LineItem.new( :position=>12, :name => 'added', :quantity => 1, :price_single =>10, :type=>'LineItem' )]
-      @doc.save.should be_true
+      @doc.save.should be true
       @doc.items.length.should == 1
       @doc.gross_total.should == 10.0
     end
@@ -242,13 +242,13 @@ describe Invoice do
     it 'should manually remove line_items so items are used on update' do
       # first save so AR loads both(items/line_items) from response
       @doc.items = [ { :position=>1, :name => 'Pork Chops', :quantity => 1, :price_single =>'10.00', :type=>'LineItem' }]
-      @doc.save.should be_true
+      @doc.save.should be true
       @doc.gross_total.should == 10.0
       # edit
       @doc.items << LineItem.new( :position=>2, :name => 'Puppy Seeds', :quantity => 1, :price_single =>1, :type=>'LineItem' )
       @doc.line_items = nil # <= IMPORTANT  part
 
-      @doc.save.should be_true
+      @doc.save.should be true
       @doc.items.length.should == 2
       @doc.gross_total.should == 11.0
     end

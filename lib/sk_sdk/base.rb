@@ -44,7 +44,7 @@ class SK::SDK::Base < ActiveResource::Base
   # @option [String] :password if using httpBasic sk user password
   def self.set_connection(opts)
     self.site   = site_api_url(opts[:site])
-    self.format = :json # f*** xml
+    self.format = :json
     if opts[:token] #oAuth access token in header
       self.headers['Authorization'] = "Bearer #{opts[:token]}"
     else

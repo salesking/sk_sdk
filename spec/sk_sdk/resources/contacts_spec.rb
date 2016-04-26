@@ -21,7 +21,7 @@ else
 
     it "should save" do
       c = Contact.new :organisation=>"Rack'n Roll", :type => 'Client'
-      c.save.should be_true
+      c.save.should be true
       c.id.should_not be_empty
       c.number.should_not be_empty
       c.destroy
@@ -42,7 +42,6 @@ else
 
     it "should find contacts" do
       contacts = Contact.find(:all)
-      ActiveResource::Collection
       contacts.length.should > 0
     end
   end
@@ -96,6 +95,4 @@ else
       @contact.addresses.length.should == cnt_before-1
     end
   end
-
-
 end

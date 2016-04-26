@@ -20,12 +20,12 @@ describe SK::SDK::Sync do
   end
 
   it "should not be outdated" do
-    @sync.outdated?.should be_false # both objects are empty
+    @sync.outdated?.should be false # both objects are empty
   end
 
   it "should find outdated fields" do
     @l_obj.firstname = 'theo'
-    @sync.outdated?.should be_true
+    @sync.outdated?.should be true
     @sync.outdated.first.should == @sync.field(:firstname)
   end
 

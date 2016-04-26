@@ -9,7 +9,7 @@ else
     before :all do
       #setup test product to work with
       @product = Product.new(:name=>'Eis am Stiel', :price => 1.50)
-      @product.save.should be_true
+      @product.save.should be true
     end
 
     after :all do
@@ -23,7 +23,7 @@ else
     it "should create a product" do
       @product.number.should_not be_nil
       @product.price.should == 1.50
-      @product.new?.should be_false
+      @product.new?.should be false
     end
 
     it "should fail create a product without name" do
@@ -35,7 +35,7 @@ else
 
     it "should fail create a product with empty price" do
       product = Product.new(:name => 'No brain', :price =>' ')
-      product.save.should be_false
+      product.save.should be false
       product.errors.full_messages.should ==  ["Price can't be blank", "Price is not a number"]
     end
 
