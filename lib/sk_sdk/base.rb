@@ -4,9 +4,6 @@ require 'active_resource'
 require 'active_resource/version'
 # patches are for specific AR version
 case ActiveResource::VERSION::MAJOR
-when 2
-  require 'sk_sdk/ar_patches/ar2/validations'
-  require 'sk_sdk/ar_patches/ar2/base'
 when 3
   require 'sk_sdk/ar_patches/ar3/base'
   require 'sk_sdk/ar_patches/ar3/validations'
