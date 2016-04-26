@@ -1,10 +1,21 @@
 require 'cgi'
-require 'curb'
 require 'sk_sdk'
 
 module SK::SDK
   # Authenticate your SalesKing App using oAuth2. This class provides helpers
-  # to create the token & dialog url and to get an access token
+  # to create the token & dialog url and build the params to get an access token.
+  # ==Example
+  # Using httparty gem:
+  #
+  #    require 'sk_sdk/oauth'
+  #    require 'httparty'
+  #
+  #    auth = SK::SDK::Oauth.new(sk_app_settings)
+  #    resp = HTTParty.post(token_url,
+  #                          body: auth.token_params(code),
+  #                          basic_auth: auth.basic_params )
+  # Of course you can use curb or any other http lib. Just make sure to read
+  # their docs about POST params, HTTP BASIC Auth and https handling
   class Oauth
 
     attr_reader :id, :secret, :redirect_url
@@ -53,27 +64,21 @@ module SK::SDK
       "#{sk_url}/oauth/token"
     end
 
+    # Params used in the POST request to /token e.g see httparty example on top.
+    # Using the client_secret in the params is DEPRECATED. Instead use HTTP Basic
+    # Auth header with client_id:client_secret like provided by #basic_params
     # @returns[Hash] params used to get the real access-token
+    # @param [String] code to exchange for the access token
     def token_params(code)
-      { :client_id     => @id,
-        :grant_type    => 'authorization_code',
-        :redirect_uri  => CGI::escape(@redirect_url),
-        :code          => code }
+      { client_id: @id,
+        grant_type: 'authorization_code',
+        redirect_uri: CGI::escape(@redirect_url),
+        code: code }
     end
 
-    # Makes a GET request to the access_token endpoint in SK and receives the
-    # access token
-    # @param [String] code request token
-    # @return [Hash{String=>String}] access token
-    def get_token(code)
-      c = Curl::Easy.new( token_url )
-      # create HTTP BASIC Auth
-      c.username = @id
-      c.password = @secret
-      # POSTed with a content-type of 'application/x-www-form-urlencoded',
-      c.http_post( token_params(code) )
-      # grab token from response body
-      ActiveSupport::JSON.decode(c.body_str)
+    # HTTP BASIC Auth Params used in the POST request to /token e.g with httparty
+    def basic_params
+      { username: @id, password: @secret }
     end
 
     # @return [String] base api url my-sub.salesking.eu/api
@@ -82,10 +87,11 @@ module SK::SDK
     end
 
     # Each company has it's own subdomain so the url must be dynamic.
-    # This is achieved by replacing the * with the subdomain in the instance
-    #
+    # This is achieved by replacing the * with the subdomain in the instance if
+    # a sub_domain was given. Else the SalesKing domain MUST include the subdomain
     # @return [String] url
     def sk_url
+      return @sk_url unless sub_domain
       @sk_url.gsub('*', sub_domain).gsub(/\/\z/, '' )
     end
 

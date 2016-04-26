@@ -17,7 +17,6 @@ Gem::Specification.new do |s|
   s.test_files    = s.files.grep(%r{^(test|spec|features)/})
   s.require_paths = ['lib']
 
-  s.add_runtime_dependency 'curb'
   s.add_runtime_dependency 'activesupport'
   s.add_runtime_dependency 'activeresource'
   s.add_runtime_dependency 'sk_api_schema'
