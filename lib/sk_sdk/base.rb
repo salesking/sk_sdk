@@ -7,7 +7,7 @@ case ActiveResource::VERSION::MAJOR
 when 3
   require 'sk_sdk/ar_patches/ar3/base'
   require 'sk_sdk/ar_patches/ar3/validations'
-when 4
+when 4,5
   require 'sk_sdk/ar_patches/ar4/validations'
   require 'sk_sdk/ar_patches/ar4/base'
 end

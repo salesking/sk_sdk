@@ -11,7 +11,7 @@ module SK::SDK
   #    require 'httparty'
   #
   #    auth = SK::SDK::Oauth.new(sk_app_settings)
-  #    resp = HTTParty.post(token_url,
+  #    resp = HTTParty.post( auth.token_url,
   #                          body: auth.token_params(code),
   #                          basic_auth: auth.basic_params )
   # Of course you can use curb or any other http lib. Just make sure to read
