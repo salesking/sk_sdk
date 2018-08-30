@@ -44,13 +44,6 @@ else
       product.name.should == @product.name
     end
 
-    it "should edit a product" do
-      @product.name = 'A new product name'
-      @product.lock_version.should == 0
-      @product.save
-      @product.lock_version.should == 1 # because save returns the data
-    end
-
     it "should fail edit a product" do
       @product.name = ''
       @product.save.should == false

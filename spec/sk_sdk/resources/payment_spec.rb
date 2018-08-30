@@ -77,8 +77,4 @@ describe Payment do
 
 end
 
-  def destroy_payment
-
-  end
-
 end

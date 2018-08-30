@@ -71,7 +71,7 @@ class SK::SDK::Base < ActiveResource::Base
 
   # Unfortunately only using AR v4+ we can create additional accessors
   # to get info on collection info and links
-  if ActiveResource::VERSION::MAJOR == 4
+  if [4,5].include?(ActiveResource::VERSION::MAJOR)
     class SkCollection < ActiveResource::Collection
       attr_accessor :current_page, :per_page, :total_entries, :total_pages
 
