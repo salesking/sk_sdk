@@ -7,7 +7,7 @@ case ActiveResource::VERSION::MAJOR
 when 3
   require 'sk_sdk/ar_patches/ar3/base'
   require 'sk_sdk/ar_patches/ar3/validations'
-when 4,5
+when 4,5,6
   require 'sk_sdk/ar_patches/ar4/validations'
   require 'sk_sdk/ar_patches/ar4/base'
 end
@@ -16,7 +16,13 @@ class SK::SDK::Base < ActiveResource::Base
   self.format = :json
   # hook before init in activeresource base because json comes in nested:
   # {client={data}
-  if (ActiveResource::VERSION::MAJOR == 3 && ActiveResource::VERSION::MINOR > 0) || ActiveResource::VERSION::MAJOR > 3
+  if ActiveResource::VERSION::MAJOR == 6
+    self.include_root_in_json = true
+    def initialize(attributes = {}, persisted=false)
+      attr = attributes[self.class.element_name] || attributes
+      super(attr, persisted)
+    end
+  elsif (ActiveResource::VERSION::MAJOR == 3 && ActiveResource::VERSION::MINOR > 0) || ActiveResource::VERSION::MAJOR < 6
     self.include_root_in_json = true
     def initialize(attributes = {}, *args)
       attr = attributes[self.class.element_name] || attributes
